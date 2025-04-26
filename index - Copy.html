@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Upload Hình Ảnh</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .preview img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .image-list {
+            margin-top: 30px;
+        }
+        .image-list img {
+            max-width: 150px;
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quản Trị - Tải Lên Hình Ảnh</h1>
+        <div class="form-group">
+            <label for="imageUpload">Chọn hình ảnh:</label>
+            <input type="file" id="imageUpload" accept="image/*">
+        </div>
+        <div class="preview">
+            <p>Hình ảnh xem trước:</p>
+            <img id="previewImage" src="" alt="Xem trước hình ảnh" style="display: none;">
+        </div>
+        <button class="btn" id="uploadButton">Tải Lên</button>
+        <div class="image-list" id="imageList">
+            <h3>Danh sách hình ảnh:</h3>
+        </div>
+    </div>
+
+    <script>
+        const imageUpload = document.getElementById('imageUpload');
+const previewImage = document.getElementById('previewImage');
+const uploadButton = document.getElementById('uploadButton');
+const imageList = document.getElementById('imageList');
+
+// Lấy danh sách hình ảnh từ LocalStorage
+let uploadedImages = JSON.parse(localStorage.getItem('uploadedImages')) || [];
+
+// Hiển thị danh sách hình ảnh khi tải trang
+updateImageList();
+
+// Hiển thị hình ảnh xem trước
+imageUpload.addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            previewImage.src = e.target.result;
+            previewImage.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Xử lý tải lên hình ảnh
+uploadButton.addEventListener('click', function () {
+    if (imageUpload.files.length === 0) {
+        alert('Vui lòng chọn một hình ảnh!');
+        return;
+    }
+
+    const file = imageUpload.files[0];
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        // Thêm hình ảnh vào danh sách
+        uploadedImages.push(e.target.result);
+
+        // Lưu danh sách hình ảnh vào LocalStorage
+        localStorage.setItem('uploadedImages', JSON.stringify(uploadedImages));
+
+        // Cập nhật danh sách hình ảnh
+        updateImageList();
+        alert('Hình ảnh đã được tải lên thành công!');
+    };
+    reader.readAsDataURL(file);
+});
+
+// Cập nhật danh sách hình ảnh
+function updateImageList() {
+    imageList.innerHTML = '<h3>Danh sách hình ảnh:</h3>';
+    uploadedImages.forEach((imageSrc, index) => {
+        const img = document.createElement('img');
+        img.src = imageSrc;
+        img.alt = `Hình ảnh ${index + 1}`;
+        imageList.appendChild(img);
+    });
+}
+    </script>
+</body>
+</html>

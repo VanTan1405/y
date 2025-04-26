@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- https://cocoshop.vn/ -->
+<!-- http://mauweb.monamedia.net/vanihome/ -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sản phẩm</title>
+    <!-- Font roboto -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Icon fontanwesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <!-- Reset css & grid sytem -->
+    <link rel="stylesheet" href="./assets/css/library.css">
+    <link href="./assets/owlCarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+    <!-- Layout -->
+    <link rel="stylesheet" href="./assets/css/common.css">
+    <!-- index -->
+    <link href="./assets/css/home.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Owl caroucel Js-->
+    <script src="./assets/owlCarousel/owl.carousel.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js"></script>
+    <style>
+       .up-top {
+    position: fixed;
+    bottom: 80px; /* Đẩy nút "Go to Top" lên trên biểu tượng Message */
+    right: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    cursor: pointer;
+    }
+
+    .message-icon {
+        position: fixed;
+        bottom: 20px; /* Biểu tượng Message nằm dưới nút "Go to Top" */
+        right: 20px;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        cursor: pointer;
+    }
+
+    .message-icon a {
+        color: #fff;
+        font-size: 24px;
+        text-decoration: none;
+    }
+
+    .message-icon:hover {
+        background-color: #0056b3;
+    }
+    /* TANNV: Reponsive trên điện thoại  */
+    </style>
+</head>
+
+<body>
+    <div class="header scrolling" id="myHeader">
+        <div class="grid wide">
+            <div class="header__top">
+                <div class="navbar-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <a href="index.html" class="header__logo">
+                    <img src="./assets/logo.png" alt="">
+                </a>
+                <div class="header__search">
+                    <div class="header__search-wrap">
+                        <input type="text" class="header__search-input" placeholder="Tìm kiếm">
+                        <a class="header__search-icon" href="#">
+                            <i class="fas fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="header__account">
+                    <a href="#my-Login" class="header__account-login">Đăng Nhập</a>
+                    <a href="#my-Register" class="header__account-register">Đăng Kí</a>
+                </div>
+                <!-- Cart -->
+                <div class="header__cart have" href="#">
+                    <i class="fas fa-shopping-basket"></i>
+                    <div class="header__cart-amount">
+                        3
+                    </div>
+                    <div class="header__cart-wrap">
+                        <ul class="order__list">
+                            <li class="item-order">
+                                <div class="order-wrap">
+                                    <a href="product.html" class="order-img">
+                                        <img src="./assets/img/product/product1.jpg" alt="">
+                                    </a>
+                                    <div class="order-main">
+                                        <a href="product.html" class="order-main-name">Áo sơ mi  caro kèm belt caro kèm belt Áo sơ mi caro kèm belt</a>
+                                        <div class="order-main-price">2 x 45,000 ₫</div>
+                                    </div>
+                                    <a href="product.html" class="order-close"><i class="far fa-times-circle"></i></a>
+                                </div>
+                            </li>
+                            <li class="item-order">
+                                <div class="order-wrap">
+                                    <a href="product.html" class="order-img">
+                                        <img src="./assets/img/product/product1.jpg" alt="">
+                                    </a>
+                                    <div class="order-main">
+                                        <a href="product.html" class="order-main-name">Áo sơ mi  caro kèm belt caro kèm belt Áo sơ mi caro kèm belt</a>
+                                        <div class="order-main-price">2 x 45,000 ₫</div>
+                                    </div>
+                                    <a href="product.html" class="order-close"><i class="far fa-times-circle"></i></a>
+                                </div>
+                            </li>
+                            <li class="item-order">
+                                <div class="order-wrap">
+                                    <a href="product.html" class="order-img">
+                                        <img src="./assets/img/product/product1.jpg" alt="">
+                                    </a>
+                                    <div class="order-main">
+                                        <a href="product.html" class="order-main-name">Áo sơ mi  caro kèm belt caro kèm belt Áo sơ mi caro kèm belt</a>
+                                        <div class="order-main-price">2 x 45,000 ₫</div>
+                                    </div>
+                                    <a href="product.html" class="order-close"><i class="far fa-times-circle"></i></a>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="total-money">Tổng cộng: 120.000đ</div>
+                        <a href="cart.html" class="btn btn--default cart-btn">Xem giỏ hàng</a>
+                        <a href="pay.html" class="btn btn--default cart-btn orange">Thanh toán</a>
+                        <!-- norcart -->
+                        <!-- <img class="header__cart-img-nocart" src="http://www.giaybinhduong.com/images/empty-cart.png" alt=""> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Menu -->
+        <div class="header__nav">
+            <ul class="header__nav-list">
+                <li class="header__nav-item nav__search">
+                    <div class="nav__search-wrap">
+                        <input class="nav__search-input" type="text" name="" id="" placeholder="Tìm sản phẩm...">
+                    </div>
+                    <div class="nav__search-btn">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </li>
+                <li class="header__nav-item authen-form">
+                    <a href="#" class="header__nav-link">Tài Khoản</a>
+                    <ul class="sub-nav">
+                        <li class="sub-nav__item">
+                            <a href="#my-Login" class="sub-nav__link">Đăng Nhập</a>
+                        </li>
+                        <li class="sub-nav__item">
+                            <a href="#my-Register" class="sub-nav__link">Đăng Kí</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="header__nav-item index">
+                    <a href="index.html" class="header__nav-link">Trang chủ</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link">Giới Thiệu</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="#" class="header__nav-link">Sản Phẩm</a>
+                    <div class="sub-nav-wrap grid wide">
+                        <ul class="sub-nav">
+                            <li class="sub-nav__item">
+                                <a href="#" class="sub-nav__link heading" data-category="all">Tất cả</a>
+                            </li>
+                        </ul>
+                        <ul class="sub-nav">
+                            <li class="sub-nav__item">
+                                <a href="#" class="sub-nav__link heading" data-category="Nail chân">Nail chân</a>
+                            </li>
+                        </ul>
+                        <ul class="sub-nav">
+                            <li class="sub-nav__item">
+                                <a href="#" class="sub-nav__link heading" data-category="Nail tay">Nail tay</a>
+                            </li>
+                        </ul>
+                        <ul class="sub-nav">
+                            <li class="sub-nav__item">
+                                <a href="#" class="sub-nav__link heading" data-category="Uốn mi">Uốn mi</a>
+                            </li>
+                        </ul>
+                        <ul class="sub-nav">
+                            <li class="sub-nav__item">
+                                <a href="#" class="sub-nav__link heading" data-category="Da mặt">Da mặt</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="header__nav-item">
+                    <a href="news.html" class="header__nav-link">Tin Tức</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="contact.html" class="header__nav-link">Liên Hệ</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main">
+        <!-- Slider -->
+        <div class="main__slice">
+            <div class="slider">
+                <div class="slide active" style="background-image:url(./assets/img/slider/slide-6.jpg)">
+                    <div class="container">
+                        <div class="caption">
+                            <h1>Giảm giá 30%</h1>
+                            <p>Giảm giá cực sốc trong tháng 6!</p>
+                            <a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="slide active" style="background-image:url(./assets/img/slider/slide-4.jpg)">
+                    <div class="container">
+                        <div class="caption">
+                            <h1>Giảm giá 30%</h1>
+                            <p>Giảm giá cực sốc trong tháng 6!</p>
+                            <a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="slide active" style="background-image:url(./assets/img/slider/slide-5.jpg)">
+                    <div class="container">
+                        <div class="caption">
+                            <h1>Giảm giá 30%</h1>
+                            <p>Giảm giá cực sốc trong tháng 6!</p>
+                            <a href="listProduct.html" class="btn btn--default">Xem ngay</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- controls  -->
+            <div class="controls">
+                <div class="prev">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="next">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <!-- indicators -->
+            <div class="indicator">
+            </div>
+        </div>
+        <!--Product Category -->
+        <div class="main__tabnine">
+            <div class="grid wide">
+                <!-- Tab items -->
+                <div class="tabs">
+                    <div class="tab-item active">
+                        Bán Chạy
+                    </div>
+                    <div class="tab-item">
+                        Giá tốt
+                    </div>
+                    <div class="tab-item">
+                        Mới Nhập
+                    </div>
+                    <div class="line"></div>
+                </div>
+                <!-- Tab content -->
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <div class="row">
+                        </div>
+                    </div>
+                    <div class="tab-pane">
+                        <div class="row">
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product4.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product5.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product2.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product3.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product6.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product4.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product1.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product2.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product4.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product3.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product6.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product5.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane">
+                        <div class="row">
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product2.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product5.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product2.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product3.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product6.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product4.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product1.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product2.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product4.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product3.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product6.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                            <div class="col l-2 m-4 s-6">
+                                <div class="product">
+                                    <div class="product__avt" style="background-image: url(./assets/img/product/product5.jpg);">
+                                    </div>
+                                    <div class="product__info">
+                                        <h3 class="product__name">Mẫu nail NestPlae</h3>
+                                        <div class="product__price">
+                                            <div class="price__old">
+                                                300.000 đ
+                                            </div>
+                                            <div class="price__new">200.000 <span class="price__unit">đ</span></div>
+                                        </div>
+                                        <div class="product__sale">
+                                            <span class="product__sale-percent">24%%</span>
+                                            <span class="product__sale-text">Giảm</span>
+                                        </div>
+                                    </div>
+                                    <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                                    <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- HightLight  -->
+        <div class="main__frame">
+            <div class="grid wide">
+                <h3 class="category__title">Ngọc Ánh Cometics</h3>
+                <h3 class="category__heading">SẢN PHẨM NỔI BẬT</h3>
+                <div class="owl-carousel hight owl-theme">
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(./assets/img/product/Chan/productchan1.jpg);">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">Nail chân </h3>
+                            <div class="product__price">
+                                <div class="price__old">
+                                    100.000 đ
+                                </div>
+                                <div class="price__new"> 70.000<span class="price__unit">đ</span></div>
+                            </div>
+                            <div class="product__sale">
+                                <span class="product__sale-percent">23</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>
+                        </div>
+                        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                    </div>
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(./assets/img/product/Chan/productchan6.jpg);">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">Nail chân </h3>
+                            <div class="product__price">
+                                <div class="price__old">
+                                    100.000 đ
+                                </div>
+                                <div class="price__new"> 70.000<span class="price__unit">đ</span></div>
+                            </div>
+                            <div class="product__sale">
+                                <span class="product__sale-percent">23</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>
+                        </div>
+                        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+
+                    </div>
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(./assets/img/product/Chan/productchan5.jpg);">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">Nail chân </h3>
+                            <div class="product__price">
+                                <div class="price__old">
+                                    100.000 đ
+                                </div>
+                                <div class="price__new"> 70.000<span class="price__unit">đ</span></div>
+                            </div>
+                            <div class="product__sale">
+                                <span class="product__sale-percent">23</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>
+                        </div>
+                        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+
+                    </div>
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(./assets/img/product/Chan/productchan4.jpg);">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">Nail chân </h3>
+                            <div class="product__price">
+                                <div class="price__old">
+                                    100.000 đ
+                                </div>
+                                <div class="price__new"> 70.000<span class="price__unit">đ</span></div>
+                            </div>
+                            <div class="product__sale">
+                                <span class="product__sale-percent">23</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>
+                        </div>
+                        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+
+                    </div>
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(./assets/img/product/Chan/productchan3.jpg);">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">Nail chân </h3>
+                            <div class="product__price">
+                                <div class="price__old">
+                                    100.000 đ
+                                </div>
+                                <div class="price__new"> 70.000<span class="price__unit">đ</span></div>
+                            </div>
+                            <div class="product__sale">
+                                <span class="product__sale-percent">23</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>
+                        </div>
+                        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+
+                    </div>
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(./assets/img/product/Chan/productchan2.jpg);">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">Nail chân </h3>
+                            <div class="product__price">
+                                <div class="price__old">
+                                    100.000 đ
+                                </div>
+                                <div class="price__new"> 70.000<span class="price__unit">đ</span></div>
+                            </div>
+                            <div class="product__sale">
+                                <span class="product__sale-percent">23</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>
+                        </div>
+                        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                    </div>
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(./assets/img/product/Chan/productchan7.jpg);">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">Nail chân </h3>
+                            <div class="product__price">
+                                <div class="price__old">
+                                    100.000 đ
+                                </div>
+                                <div class="price__new"> 70.000<span class="price__unit">đ</span></div>
+                            </div>
+                            <div class="product__sale">
+                                <span class="product__sale-percent">23</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>
+                        </div>
+                        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                    </div>
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(./assets/img/product/Chan/productchan8.jpg);">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">Nail chân </h3>
+                            <div class="product__price">
+                                <div class="price__old">
+                                    100.000 đ
+                                </div>
+                                <div class="price__new"> 70.000<span class="price__unit">đ</span></div>
+                            </div>
+                            <div class="product__sale">
+                                <span class="product__sale-percent">23</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>
+                        </div>
+                        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                    </div>
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(./assets/img/product/Chan/productchan9.jpg);">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">Nail chân </h3>
+                            <div class="product__price">
+                                <div class="price__old">
+                                    100.000 đ
+                                </div>
+                                <div class="price__new"> 70.000<span class="price__unit">đ</span></div>
+                            </div>
+                            <div class="product__sale">
+                                <span class="product__sale-percent">23</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>
+                        </div>
+                        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                    </div>
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(./assets/img/product/Chan/productchan10.jpg);">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">Nail chân </h3>
+                            <div class="product__price">
+                                <div class="price__old">
+                                    100.000 đ
+                                </div>
+                                <div class="price__new"> 70.000<span class="price__unit">đ</span></div>
+                            </div>
+                            <div class="product__sale">
+                                <span class="product__sale-percent">23</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>
+                        </div>
+                        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                    </div>
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(./assets/img/product/Chan/productchan11.jpg);">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">Nail chân </h3>
+                            <div class="product__price">
+                                <div class="price__old">
+                                    100.000 đ
+                                </div>
+                                <div class="price__new"> 70.000<span class="price__unit">đ</span></div>
+                            </div>
+                            <div class="product__sale">
+                                <span class="product__sale-percent">23</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>
+                        </div>
+                        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                    </div>
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(./assets/img/product/Chan/productchan12.jpg);">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">Nail chân </h3>
+                            <div class="product__price">
+                                <div class="price__old">
+                                    100.000 đ
+                                </div>
+                                <div class="price__new"> 70.000<span class="price__unit">đ</span></div>
+                            </div>
+                            <div class="product__sale">
+                                <span class="product__sale-percent">23</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>
+                        </div>
+                        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                    </div>
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(./assets/img/product/Chan/productchan13.jpg);">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">Nail chân </h3>
+                            <div class="product__price">
+                                <div class="price__old">
+                                    100.000 đ
+                                </div>
+                                <div class="price__new"> 70.000<span class="price__unit">đ</span></div>
+                            </div>
+                            <div class="product__sale">
+                                <span class="product__sale-percent">23</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>
+                        </div>
+                        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Sales Policy -->
+        <div class="main__policy">
+            <div class="row">
+                <div class="col l-3 m-6">
+                    <div class="policy bg-1">
+                        <img src="./assets/img/policy/policy1.png" class="policy__img"></img>
+                        <div class="policy__info">
+                            <h3 class="policy__title">GIAO HÀNG MIỄN PHÍ</h3>
+                            <p class="policy__description">Cho đơn hàng từ 300K</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col l-3 m-6">
+                    <div class="policy bg-2">
+                        <img src="./assets/img/policy/policy2.png" class="policy__img"></img>
+                        <div class="policy__info">
+                            <h3 class="policy__title">ĐỔI TRẢ HÀNG</h3>
+                            <p class="policy__description">Trong 3 ngày đầu tiên</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col l-3 m-6">
+                    <div class="policy bg-1">
+                        <img src="./assets/img/policy/policy3.png" class="policy__img"></img>
+                        <div class="policy__info">
+                            <h3 class="policy__title">HÀNG CHÍNH HÃNG</h3>
+                            <p class="policy__description">Cam kết chất lượng</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col l-3 m-6">
+                    <div class="policy bg-2">
+                        <img src="./assets/img/policy/policy4.png" class="policy__img"></img>
+                        <div class="policy__info">
+                            <h3 class="policy__title">TƯ VẤN 24/24</h3>
+                            <p class="policy__description">Giải đáp mọi thắc mắc</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- News -->
+        <div class="main__frame bg-3">
+            <div class="grid wide">
+                <h3 class="category__title">Ngọc Ánh Cometics</h3>
+                <h3 class="category__heading">Tin Tức</h3>
+                <div class="owl-carousel news owl-theme">
+                    <a href="news.html" class="news">
+                        <div class="news__img">
+                            <img src="./assets/img/news/news1.jpg" alt="">
+                        </div>
+                        <div class="news__body">
+                            <h3 class="news__body-title">Trang điểm đúng cách</h3>
+                            <div class="new__body-date">13/6/2021</div>
+                            <p class="news__description">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. In sit molestiae aperiam modi cum deserunt, maxime blanditiis voluptate officiis accusantium minima pariatur harum tenetur quo iste iusto commodi. Modi, culpa?
+                            </p>
+                        </div>
+                    </a>
+                    <a href="news.html" class="news">
+                        <div class="news__img">
+                            <img src="./assets/img/news/news1.jpg" alt="">
+                        </div>
+                        <div class="news__body">
+                            <h3 class="news__body-title">Trang điểm đúng cách</h3>
+                            <div class="new__body-date">13/6/2021</div>
+                            <p class="news__description">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. In sit molestiae aperiam modi cum deserunt, maxime blanditiis voluptate officiis accusantium minima pariatur harum tenetur quo iste iusto commodi. Modi, culpa?
+                            </p>
+                        </div>
+                    </a>
+                    <a href="news.html" class="news">
+                        <div class="news__img">
+                            <img src="./assets/img/news/news1.jpg" alt="">
+                        </div>
+                        <div class="news__body">
+                            <h3 class="news__body-title">Trang điểm đúng cách</h3>
+                            <div class="new__body-date">13/6/2021</div>
+                            <p class="news__description">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. In sit molestiae aperiam modi cum deserunt, maxime blanditiis voluptate officiis accusantium minima pariatur harum tenetur quo iste iusto commodi. Modi, culpa?
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="main__bands">
+            <div class="grid wide">
+                <div class="owl-carousel bands">
+                    <a href="listProduct.html" class="band__item" style="background-image: url(./assets/img/band/band1.png)"></a>
+                    <a href="listProduct.html" class="band__item" style="background-image: url(./assets/img/band/band2.png)"></a>
+                    <a href="listProduct.html" class="band__item" style="background-image: url(./assets/img/band/band3.png)"></a>
+                    <a href="listProduct.html" class="band__item" style="background-image: url(./assets/img/band/band4.png)"></a>
+                    <a href="listProduct.html" class="band__item" style="background-image: url(./assets/img/band/band5.png)"></a>
+                    <a href="listProduct.html" class="band__item" style="background-image: url(./assets/img/band/band6.png)"></a>
+                    <a href="listProduct.html" class="band__item" style="background-image: url(./assets/img/band/band7.png)"></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="footer">
+        <div class="grid wide">
+            <div class="row">
+                <div class="col l-3 m-6 s-12">
+                    <h3 class="footer__title">Menu</h3>
+                    <ul class="footer__list">
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">Trang điểm</a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">Chăm sóc da</a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">Chăm sóc tóc</a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">Nước hoa</a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">Chăm sóc toàn thân </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col l-3 m-6 s-12">
+                    <h3 class="footer__title">Hỗ trợ khách hàng</h3>
+                    <ul class="footer__list">
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">Hướng dẫn mua hàng</a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">Giải đáp thắc mắc</a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">Chính sách mua hàng</a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">Chính sách đổi trả</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col l-3 m-6 s-12">
+                    <h3 class="footer__title">Liên hệ</h3>
+                    <ul class="footer__list">
+                        <li class="footer__item">
+                            <span class="footer__text">
+                                    <i class="fas fa-map-marked-alt"></i> Vinh Ba, Hòa Đồng, Tây Hòa, Phú Yên
+                                </span>
+                        </li>
+                        <li class="footer__item">
+                            <a href="#" class="footer__link">
+                                <i class="fas fa-phone"></i> 0799465582
+                            </a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="index copy.html" class="footer__link">
+                                <i class="fas fa-envelope"></i> phanphun791@gmail.com
+                            </a>
+                        </li>
+                        <li class="footer__item">
+                            <div class="social-group">
+                                <a href="#" class="social-item"><i class="fab fa-facebook-f"></i>
+                                    </a>
+                                <a href="#" class="social-item"><i class="fab fa-twitter"></i>
+                                    </a>
+                                <a href="#" class="social-item"><i class="fab fa-pinterest-p"></i>
+                                    </a>
+                                <a href="#" class="social-item"><i class="fab fa-invision"></i>
+                                    </a>
+                                <a href="#" class="social-item"><i class="fab fa-youtube"></i>  
+                                    </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col l-3 m-6 s-12">
+                    <h3 class="footer__title">Đăng kí</h3>
+                    <ul class="footer__list">
+                        <li class="footer__item">
+                            <span class="footer__text">Đăng ký để nhận được được thông tin ưu đãi mới nhất từ chúng tôi.</span>
+                        </li>
+                        <li class="footer__item">
+                            <div class="send-email">
+                                <input class="send-email__input" type="email" placeholder="Nhập Email...">
+                                <a href="#" class="send-email__link">
+                                    <i class="fas fa-paper-plane"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <span class="footer__text"> &copy Bản quyền thuộc về <a class="footer__link" href="#"> Phương</a></span>
+        </div>
+    </div>
+    <!-- Modal Form -->
+    <div class="ModalForm">
+        <div class="modal" id="my-Register">
+            <a href="#" class="overlay-close"></a>
+            <div class="authen-modal register">
+                <h3 class="authen-modal__title">Đăng Kí</h3>
+                <div class="form-group">
+                    <label for="account" class="form-label">Họ Tên</label>
+                    <input id="account" name="account" type="text" class="form-control">
+                    <span class="form-message">Không hợp lệ !</span>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Tài khoản Email *</label>
+                    <input id="password" name="password" type="text" class="form-control">
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Mật khẩu *</label>
+                    <input id="password" name="password" type="text" class="form-control">
+                    <span class="form-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Nhập lại mật khẩu *</label>
+                    <input id="password" name="password" type="text" class="form-control">
+                    <span class="form-message"></span>
+                </div>
+                <div class="authen__btns">
+                    <div class="btn btn--default">Đăng Kí</div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="my-Login">
+            <a href="#" class="overlay-close"></a>
+            <div class="authen-modal login">
+                <h3 class="authen-modal__title">Đăng Nhập</h3>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="account" class="form-label">Địa chỉ email *</label>
+                        <input id="account" name="account"  class="form-control" placeholder="Nhập email của bạn">
+                        <span class="form-message" id="emailMessage"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label">Mật khẩu *</label>
+                        <input id="password" name="password" type="password" class="form-control" placeholder="Nhập mật khẩu">
+                        <span class="form-message" id="passwordMessage"></span>
+                    </div>
+                    <div class="authen__btns">
+                        <button href =] type="button" class="btn btn--default" id="loginButton">Đăng Nhập</button>
+                        <div class="remember-me">
+                            <input type="checkbox" class="authen-checkbox" id="rememberMe">
+                            <label for="rememberMe" class="form-label">Ghi nhớ mật khẩu</label>
+                        </div>
+                    </div>
+                    <a href="#" class="authen__link">Quên mật khẩu?</a>
+                </form>
+            </div>
+        </div>
+        </div>
+        <div class="up-top" id="upTop" onclick="goToTop()">
+            <i class="fas fa-chevron-up"></i>
+        </div>
+        <div class="message-icon">
+            <a href="https://www.facebook.com/messages/e2ee/t/24215521644762058" title="Gửi tin nhắn">
+                <i class="fas fa-comment-dots"></i>
+            </a>
+        </div>
+    </div>
+    <script>
+
+const postContainer = document.querySelector('.main__tabnine .row'); // Container hiển thị sản phẩm
+const posts = JSON.parse(localStorage.getItem('posts')) || []; // Lấy dữ liệu từ LocalStorage
+const categoryFilter = document.getElementById('categoryFilter'); // Dropdown lọc loại sản phẩm
+
+// ---
+const subNavLinks = document.querySelectorAll('.sub-nav__link'); // Lấy tất cả các liên kết trong sub-nav
+
+// Hàm hiển thị sản phẩm
+function displayPosts(filteredPosts) {
+    postContainer.innerHTML = ''; // Xóa nội dung cũ
+    filteredPosts.forEach(post => {
+        const postItem = document.createElement('div');
+        postItem.className = 'col l-2 m-4 s-6';
+        postItem.innerHTML = `
+            <div class="product">
+                <div class="product__avt" style="background-image: url(${post.imageSrc});">
+                </div>
+                <div class="product__info">
+                    <h3 class="product__name">${post.title}</h3>
+                    <div class="product__price">
+                        <div class="price__old">${post.priceOld}</div>
+                        <div class="price__new">${post.priceNew} <span class="price__unit">đ</span></div>
+                    </div>
+                    <div class="product__sale">
+                        <span class="product__sale-percent">${post.salePercent}</span>
+                        <span class="product__sale-text">Giảm</span>
+                    </div>
+                </div>
+                <a href="product.html" class="viewDetail">Xem chi tiết</a>
+                <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+            </div>
+        `;
+        postContainer.appendChild(postItem);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Hiển thị tất cả sản phẩm khi trang được tải
+    displayPosts(posts);
+
+    // Xử lý sự kiện click vào từng mục trong sub-nav
+    const subNavLinks = document.querySelectorAll('.sub-nav__link'); // Lấy tất cả các liên kết trong sub-nav
+
+    subNavLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Xóa trạng thái active của tất cả các link
+            subNavLinks.forEach(link => link.classList.remove('active'));
+
+            // Thêm trạng thái active cho link được nhấn
+            this.classList.add('active');
+
+            // Lọc sản phẩm theo loại
+            const selectedCategory = this.getAttribute('data-category');
+            if (selectedCategory === 'all') {
+                displayPosts(posts); // Hiển thị tất cả sản phẩm
+            } else {
+                const filteredPosts = posts.filter(post => post.category === selectedCategory);
+                displayPosts(filteredPosts); // Hiển thị sản phẩm theo loại
+            }
+        });
+    });
+});
+// ******
+
+// ------------------------------------------------------------------------------------------
+// Xử lý sự kiện đăng nhập
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('loginButton').addEventListener('click', function () {
+        const emailInput = document.getElementById('account').value.trim();
+        const passwordInput = document.getElementById('password').value.trim();
+        const emailMessage = document.getElementById('emailMessage');
+        const passwordMessage = document.getElementById('passwordMessage');
+
+        // Reset thông báo lỗi
+        emailMessage.textContent = '';
+        passwordMessage.textContent = '';
+
+        // // Kiểm tra thông tin đăng nhập
+        // if (emailInput === '' || passwordInput === '') {
+        //     if (emailInput === '') {
+        //         emailMessage.textContent = 'Vui lòng nhập email!';
+        //         emailMessage.style.color = 'red';
+        //     }
+        //     if (passwordInput === '') {
+        //         passwordMessage.textContent = 'Vui lòng nhập mật khẩu!';
+        //         passwordMessage.style.color = 'red';
+        //     }
+        //     return;
+        // }
+
+        // Kiểm tra thông tin đăng nhập (giả lập)
+        if (emailInput == 'abc@example.com') {
+    alert('Đăng nhập thành công!');
+        // Chuyển hướng đến trang admin
+        window.location.href = 'product.html';
+    } else {
+        // Hiển thị thông báo lỗi
+        emailMessage.textContent = 'Email hoặc mật khẩu không chính xác!';
+        emailMessage.style.color = 'red';
+    }
+
+        
+    });
+});
+
+    </script>
+    <!-- Script common -->
+    <script src="./assets/js/homeScript.js"></script>
+    <script src="./assets/js/commonscript.js"></script>
+</body>
+
+</html>

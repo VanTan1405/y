@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js"></script>
+    
+    <title>Admin - Đăng Bài</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+    
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+    
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+    
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+    
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+    
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+    
+        .form-group input:focus {
+            border-color: #2575fc;
+            outline: none;
+            box-shadow: 0 0 8px rgba(37, 117, 252, 0.5);
+        }
+    
+        .preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+    
+        .preview img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-top: 10px;
+            transition: transform 0.3s ease;
+        }
+    
+        .preview img:hover {
+            transform: scale(1.05);
+        }
+    
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+            text-align: center;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+    
+        .btn:hover {
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+            transform: translateY(-2px);
+        }
+    
+        .post-list {
+            margin-top: 30px;
+        }
+    
+        .post-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-in-out;
+        }
+    
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    
+        .post-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+    
+        .post-item h4 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+    
+        .post-item p {
+            font-size: 16px;
+            color: #555;
+        }
+    
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+    
+            h1 {
+                font-size: 24px;
+            }
+    
+            .form-group input {
+                padding: 10px;
+                font-size: 14px;
+            }
+    
+            .btn {
+                font-size: 16px;
+                padding: 12px;
+            }
+    
+            .post-item h4 {
+                font-size: 18px;
+            }
+    
+            .post-item p {
+                font-size: 14px;
+            }
+        }
+    
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+    
+            h1 {
+                font-size: 20px;
+            }
+    
+            .form-group input {
+                padding: 8px;
+                font-size: 12px;
+            }
+    
+            .btn {
+                font-size: 14px;
+                padding: 10px;
+            }
+    
+            .post-item h4 {
+                font-size: 16px;
+            }
+    
+            .post-item p {
+                font-size: 12px;
+            }
+        }
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+            resize: none; /* Vô hiệu hóa thay đổi kích thước */
+            transition: all 0.3s ease;
+        }
+
+        .form-group textarea:focus {
+            border-color: #2575fc;
+            outline: none;
+            box-shadow: 0 0 8px rgba(37, 117, 252, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin - Đăng Bài</h1>
+        <div class="form-group">
+            <label for="postTitle">Tên mẫu:</label>
+            <input type="text" id="postTitle" placeholder="Nhập tên mẫu">
+        </div>
+        <div class="form-group">
+            <label for="postCategory">Loại sản phẩm:</label>
+            <select id="postCategory" class="form-control">
+                <option value="Nail chân">Nail chân</option>
+                <option value="Nail tay">Nail tay</option>
+                <option value="Uốn mi">Uốn mi</option>
+                <option value="Da mặt">Da mặt</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="postPriceOld">Giá cũ:</label>
+            <input type="text" id="postPriceOld" placeholder="Nhập giá cũ (VD: 300.000 đ)">
+        </div>
+        <div class="form-group">
+            <label for="postPriceNew">Giá giảm:</label>
+            <input type="text" id="postPriceNew" placeholder="Nhập giá giảm (VD: 200.000 đ)">
+        </div>
+        <div class="form-group">
+            <label for="postDescription">Mô tả:</label>
+            <textarea id="postDescription" placeholder="Nhập mô tả bài viết" rows="4" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="imageUpload">Chọn hình ảnh:</label>
+            <input type="file" id="imageUpload" accept="image/*">
+        </div>
+        <div class="preview">
+            <p>Hình ảnh xem trước:</p>
+            <img id="previewImage" src="" alt="Xem trước hình ảnh" style="display: none;">
+        </div>
+        <button class="btn" id="postButton">Đăng Bài</button>
+        <div class="post-list" id="postList">
+            <h3>Danh sách bài viết:</h3>
+        </div>
+    </div>
+
+    <script>
+        const postTitle = document.getElementById('postTitle');
+        const postPriceOld = document.getElementById('postPriceOld');
+        const postPriceNew = document.getElementById('postPriceNew');
+        const imageUpload = document.getElementById('imageUpload');
+        const previewImage = document.getElementById('previewImage');
+        const postButton = document.getElementById('postButton');
+        const postList = document.getElementById('postList');
+        // 20/04: TANNV thêm mô tả
+        const postDescription = document.getElementById('postDescription');
+        const postCategory = document.getElementById('postCategory');
+
+        // Lấy danh sách bài viết từ LocalStorage
+        let posts = JSON.parse(localStorage.getItem('posts')) || [];
+
+        // Hiển thị danh sách bài viết khi tải trang
+        updatePostList();
+
+        // Hiển thị hình ảnh xem trước
+        imageUpload.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Xử lý đăng bài
+        postButton.addEventListener('click', function () {
+            const title = postTitle.value.trim();
+            const priceOld = postPriceOld.value.trim();
+            const priceNew = postPriceNew.value.trim();
+            const description = postDescription.value.trim();
+            const imageSrc = previewImage.src;
+            const category = postCategory.value; // Lấy giá trị loại sản phẩm
+
+            if (!title || !priceOld || !priceNew || !imageSrc || !description || !category) {
+        alert('Vui lòng nhập đầy đủ thông tin và chọn hình ảnh!');
+        return;
+    
+
+        }
+
+            // Tính toán phần trăm giảm giá
+            const salePercent = Math.round(((parseFloat(priceOld.replace(/\D/g, '')) - parseFloat(priceNew.replace(/\D/g, ''))) / parseFloat(priceOld.replace(/\D/g, ''))) * 100);
+
+            // Thêm bài viết vào danh sách
+            // const newPost = { title, priceOld, priceNew, salePercent: `${salePercent}%`, imageSrc };
+             // Thêm bài viết vào danh sách
+            const newPost = { title, priceOld, priceNew, salePercent: `${salePercent}%`, imageSrc, description, category };
+            posts.push(newPost);
+
+            // Lưu danh sách bài viết vào LocalStorage
+            localStorage.setItem('posts', JSON.stringify(posts));
+
+            // Cập nhật danh sách bài viết
+            updatePostList();
+
+            // Reset form
+            postTitle.value = '';
+            postPriceOld.value = '';
+            postPriceNew.value = '';
+            previewImage.src = '';
+            postDescription.value = '';
+            previewImage.style.display = 'none';
+            postCategory.value = 'Nail chân'; // Reset về giá trị mặc định
+
+            alert('Bài viết đã được đăng thành công!');
+        });
+
+        // Cập nhật danh sách bài viết
+        function updatePostList() {
+            postList.innerHTML = '<h3>Danh sách bài viết:</h3>';
+            posts.forEach((post, index) => {
+                const postItem = document.createElement('div');
+                postItem.className = 'post-item';
+                postItem.innerHTML = `
+                    <img src="${post.imageSrc}" alt="Hình ảnh bài viết">
+                    <h4>${post.title}</h4>
+                    <p>Giá cũ: ${post.priceOld}</p>
+                    <p>Giá giảm: ${post.priceNew}</p>
+                    <p>Giảm: ${post.salePercent}</p>
+                `;
+                postList.appendChild(postItem);
+            });
+        }
+
+        // Cập nhật danh sách bài viết
+function updatePostList() {
+    postList.innerHTML = '<h3>Danh sách bài viết:</h3>';
+    posts.forEach((post, index) => {
+        const postItem = document.createElement('div');
+        postItem.className = 'post-item';
+        postItem.innerHTML = `
+            <img src="${post.imageSrc}" alt="Hình ảnh bài viết">
+            <h4>${post.title}</h4>
+            <p>Giá cũ: ${post.priceOld}</p>
+            <p>Giá giảm: ${post.priceNew}</p>
+            <p>Giảm: ${post.salePercent}</p>
+            <p>Loại sản phẩm: ${post.category}</p>
+            <p>Mô tả: ${post.description}</p>
+            <button class="btn-delete" data-index="${index}">Xóa</button>
+        `;
+        postList.appendChild(postItem);
+    });
+
+    // Thêm sự kiện xóa bài viết
+    const deleteButtons = document.querySelectorAll('.btn-delete');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const index = this.getAttribute('data-index');
+            deletePost(index);
+        });
+    });
+}
+
+// Hàm xóa bài viết
+function deletePost(index) {
+    // Xóa bài viết khỏi mảng
+    posts.splice(index, 1);
+
+    // Cập nhật lại LocalStorage
+    localStorage.setItem('posts', JSON.stringify(posts));
+
+    // Cập nhật lại danh sách bài viết
+    updatePostList();
+
+    alert('Bài viết đã được xóa thành công!');
+}
+
+
+    </script>
+</body>
+</html>
+
+<!-- Thông tin API 
+ npm install firebase
+ // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDahzCqkvOT1QT_1Nn7aTn2yHCMYsh7pV0",
+  authDomain: "website-nail.firebaseapp.com",
+  projectId: "website-nail",
+  storageBucket: "website-nail.firebasestorage.app",
+  messagingSenderId: "75672971138",
+  appId: "1:75672971138:web:8ff555d2b59c2785d0919b",
+  measurementId: "G-QHYWL9HGTX"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app); -->
