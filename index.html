@@ -1396,7 +1396,34 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 // ******
+async function loadProductsFromSheets() {
+  const apiUrl = 'https://script.google.com/macros/s/AKfycbykgt3Pb8EmFVtDjhV7Q2Uq4y3xwCG1NmKSP8kv6SjqibUWnugrljAe6jj4kUEGxAB1/exec'; // Thay bằng URL Web App của bạn
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    const postList = document.getElementById('postList');
+    postList.innerHTML = '<h3>Danh sách sản phẩm:</h3>';
 
+    data.forEach((product) => {
+      const productItem = document.createElement('div');
+      productItem.className = 'post-item';
+      productItem.innerHTML = `
+        <h4>${product[1] || 'Không có tên'}</h4>
+        <p>Loại: ${product[2] || 'N/A'}</p>
+        <p>Giá cũ: ${product[3] || 'N/A'}</p>
+        <p>Giá mới: ${product[4] || 'N/A'}</p>
+        <p>Mô tả: ${product[5] || 'N/A'}</p>
+        ${product[7] ? `<img src="${product[7]}" alt="Ảnh sản phẩm" style="max-width: 200px;">` : ''}
+      `;
+      postList.appendChild(productItem);
+    });
+  } catch (error) {
+    console.error('Lỗi khi load dữ liệu:', error);
+  }
+}
+
+// Gọi hàm này khi trang web load xong
+window.addEventListener('DOMContentLoaded', loadProductsFromSheets);
 // ------------------------------------------------------------------------------------------
 // Xử lý sự kiện đăng nhập
 document.addEventListener('DOMContentLoaded', function () {
@@ -1410,18 +1437,6 @@ document.addEventListener('DOMContentLoaded', function () {
         emailMessage.textContent = '';
         passwordMessage.textContent = '';
 
-        // // Kiểm tra thông tin đăng nhập
-        // if (emailInput === '' || passwordInput === '') {
-        //     if (emailInput === '') {
-        //         emailMessage.textContent = 'Vui lòng nhập email!';
-        //         emailMessage.style.color = 'red';
-        //     }
-        //     if (passwordInput === '') {
-        //         passwordMessage.textContent = 'Vui lòng nhập mật khẩu!';
-        //         passwordMessage.style.color = 'red';
-        //     }
-        //     return;
-        // }
 
         // Kiểm tra thông tin đăng nhập (giả lập)
         if (emailInput == 'abc@example.com') {
