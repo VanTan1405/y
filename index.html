@@ -70,6 +70,47 @@
     .message-icon:hover {
         background-color: #0056b3;
     }
+    .loading-indicator {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background: #2575fc;
+  color: white;
+  border-radius: 4px;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 4px;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.notification.success {
+  background: #4CAF50;
+}
+
+.notification.warning {
+  background: #FF9800;
+}
+
+.notification.error {
+  background: #F44336;
+}
+
+.notification.fade-out {
+  opacity: 0;
+}
     /* TANNV: Reponsive trên điện thoại  */
     </style>
 </head>
@@ -1395,35 +1436,87 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
-// ******
+// ***************
+// Hàm tải sản phẩm từ Google Sheets
 async function loadProductsFromSheets() {
   const apiUrl = 'https://script.google.com/macros/s/AKfycbykgt3Pb8EmFVtDjhV7Q2Uq4y3xwCG1NmKSP8kv6SjqibUWnugrljAe6jj4kUEGxAB1/exec'; // Thay bằng URL Web App của bạn
+  
   try {
     const response = await fetch(apiUrl);
-    const data = await response.json();
-    const postList = document.getElementById('postList');
-    postList.innerHTML = '<h3>Danh sách sản phẩm:</h3>';
-
-    data.forEach((product) => {
-      const productItem = document.createElement('div');
-      productItem.className = 'post-item';
-      productItem.innerHTML = `
-        <h4>${product[1] || 'Không có tên'}</h4>
-        <p>Loại: ${product[2] || 'N/A'}</p>
-        <p>Giá cũ: ${product[3] || 'N/A'}</p>
-        <p>Giá mới: ${product[4] || 'N/A'}</p>
-        <p>Mô tả: ${product[5] || 'N/A'}</p>
-        ${product[7] ? `<img src="${product[7]}" alt="Ảnh sản phẩm" style="max-width: 200px;">` : ''}
-      `;
-      postList.appendChild(productItem);
-    });
+    const products = await response.json();
+    
+    // Hiển thị sản phẩm lên giao diện
+    displayProducts(products);
+    
+    // Lưu vào localStorage để dùng offline
+    localStorage.setItem('products', JSON.stringify(products));
   } catch (error) {
-    console.error('Lỗi khi load dữ liệu:', error);
+    console.error('Lỗi khi tải dữ liệu:', error);
+    // Nếu không kết nối được, dùng dữ liệu từ localStorage
+    const cachedProducts = JSON.parse(localStorage.getItem('products')) || [];
+    displayProducts(cachedProducts);
   }
 }
 
-// Gọi hàm này khi trang web load xong
+// Hàm hiển thị sản phẩm
+function displayProducts(products) {
+  const postList = document.getElementById('postList');
+  const postContainer = document.querySelector('.main__tabnine .row');
+  
+  // Xóa nội dung cũ
+  postList.innerHTML = '<h3>Danh sách sản phẩm:</h3>';
+  postContainer.innerHTML = '';
+  
+  // Hiển thị trong danh sách admin
+  products.forEach((product, index) => {
+    const productItem = document.createElement('div');
+    productItem.className = 'post-item';
+    productItem.innerHTML = `
+      <h4>${product.title || 'Không có tên'}</h4>
+      <p>Loại: ${product.category || 'N/A'}</p>
+      <p>Giá cũ: ${product.priceOld || 'N/A'}</p>
+      <p>Giá mới: ${product.priceNew || 'N/A'}</p>
+      <p>Giảm: ${product.salePercent || 'N/A'}</p>
+      <p>Mô tả: ${product.description || 'N/A'}</p>
+      ${product.imageUrl ? `<img src="${product.imageUrl}" alt="Ảnh sản phẩm" style="max-width: 200px;">` : ''}
+      <button class="btn-delete" data-id="${index}">Xóa</button>
+    `;
+    postList.appendChild(productItem);
+  });
+  
+  // Hiển thị trong trang chủ (sản phẩm)
+  products.forEach(product => {
+    const postItem = document.createElement('div');
+    postItem.className = 'col l-2 m-4 s-6';
+    postItem.innerHTML = `
+      <div class="product">
+        <div class="product__avt" style="background-image: url(${product.imageUrl || './assets/img/no-image.jpg'});">
+        </div>
+        <div class="product__info">
+          <h3 class="product__name">${product.title}</h3>
+          <div class="product__price">
+            <div class="price__old">${product.priceOld}</div>
+            <div class="price__new">${product.priceNew} <span class="price__unit">đ</span></div>
+          </div>
+          <div class="product__sale">
+            <span class="product__sale-percent">${product.salePercent}</span>
+            <span class="product__sale-text">Giảm</span>
+          </div>
+        </div>
+        <a href="product.html" class="viewDetail">Xem chi tiết</a>
+        <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
+      </div>
+    `;
+    postContainer.appendChild(postItem);
+  });
+}
+
+// Tự động cập nhật dữ liệu mỗi 30 giây
+setInterval(loadProductsFromSheets, 30000);
+
+// Load dữ liệu khi trang được tải
 window.addEventListener('DOMContentLoaded', loadProductsFromSheets);
+// ***********
 // ------------------------------------------------------------------------------------------
 // Xử lý sự kiện đăng nhập
 document.addEventListener('DOMContentLoaded', function () {
