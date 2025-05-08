@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tiệm Nail Phan Phương</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to right, #fff0f5, #ffe4e1);
+      color: #333;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background: url('https://source.unsplash.com/1600x600/?nail,salon') center/cover no-repeat;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 20px;
+      position: relative;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    header h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 4em;
+      z-index: 1;
+    }
+
+    header p {
+      font-size: 1.5em;
+      margin-top: 10px;
+      z-index: 1;
+    }
+
+    section {
+      padding: 60px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h2 {
+      color: #b24857;
+      font-size: 2em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .about, .services, .contact {
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .services ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 0;
+    }
+
+    .services li {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .services li:hover {
+      transform: translateY(-5px);
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .gallery img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 15px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .contact p {
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    footer {
+      background-color: #b24857;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.95em;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Tiệm Nail Phan Phương</h1>
+    <p>"Tinh tế từng đường cong - Sang trọng từng ngón tay"</p>
+  </header>
+
+  <section class="about">
+    <h2>Giới thiệu</h2>
+    <p style="text-align: center; max-width: 700px; margin: auto;">Chúc mừng bạn đã tìm đến "thiên đường" nail sang trọng bậc nhất khu vực. Tiệm Nail Phan Phương tự hào mang đến những màu sắc độc đáo, phong cách đặc trưng và dịch vụ đẳng cấp.</p>
+  </section>
+
+  <section class="services">
+    <h2>Dịch vụ</h2>
+    <ul>
+      <li>💅 Cắt, dũa, sơn móng</li>
+      <li>🎨 Vẽ nail nghệ thuật cao cấp</li>
+      <li>💎 Gắn đá Swarovski, kim tuyến</li>
+      <li>🧖 Chăm sóc da tay, chân cao cấp</li>
+    </ul>
+  </section>
+
+  <section class="gallery">
+    <h2>Bộ sưu tập</h2>
+    <img src="assets/img/product/product1.jpg" alt="Nail Art 1">
+    <img src="assets/img/product/product3.jpg" alt="Nail Art 2">
+    <img src="assets/img/product/product6.jpg" alt="Nail Art 3">
+  </section>
+
+  <section class="contact">
+    <h2>Liên hệ</h2>
+    <p>📍 Vinh Ba, Hòa Đồng, Tây Hòa, Phú Yên</p>
+    <p>📞 0799 465 582</p>
+    <p>📱 Facebook: <a href="#">fb.com/tiemnailphanphuong</a></p>
+  </section>
+
+  <footer>
+    &copy; 2025 Tiệm Nail Phan Phương. Thiết kế với tình yêu và nghệ thuật.
+  </footer>
+
+</body>
+</html>
