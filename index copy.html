@@ -6,7 +6,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js"></script>
     
-    <title>Admin - Đăng Bài</title>
+    <title>Admin01 - Đăng Bài01</title>
     <style>
         /* Reset CSS */
         * {
@@ -294,189 +294,6 @@
       loadData();
     </script>
     
-    <!-- <script>
-        const postTitle = document.getElementById('postTitle');
-        const postPriceOld = document.getElementById('postPriceOld');
-        const postPriceNew = document.getElementById('postPriceNew');
-        const imageUpload = document.getElementById('imageUpload');
-        const previewImage = document.getElementById('previewImage');
-        const postButton = document.getElementById('postButton');
-        const postList = document.getElementById('postList');
-        // 20/04: TANNV thêm mô tả
-        const postDescription = document.getElementById('postDescription');
-        const postCategory = document.getElementById('postCategory');
-
-        // Lấy danh sách bài viết từ LocalStorage
-        let posts = JSON.parse(localStorage.getItem('posts')) || [];
-
-
-        // Hiển thị danh sách bài viết khi tải trang
-        updatePostList();
-
-        // Hiển thị hình ảnh xem trước
-        imageUpload.addEventListener('change', function (event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    previewImage.src = e.target.result;
-                    previewImage.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-    async function saveToGoogleSheets(post) {
-  // Thay bằng URL Web App bạn vừa triển khai
-  const apiUrl = 'https://script.google.com/macros/s/AKfycbykgt3Pb8EmFVtDjhV7Q2Uq4y3xwCG1NmKSP8kv6SjqibUWnugrljAe6jj4kUEGxAB1/exec';
-  
-  // Chuyển đổi hình ảnh sang base64
-  if (previewImage.src && previewImage.src.startsWith('data:')) {
-    post.imageBase64 = previewImage.src;
-  }
-
-  try {
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      mode: 'no-cors', // Thêm dòng này để xử lý CORS
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(post),
-    });
-    
-    // Xử lý response đơn giản vì mode no-cors
-    alert('Dữ liệu đã được gửi thành công!');
-    console.log('Dữ liệu đã gửi:', post);
-    
-  } catch (error) {
-    console.error('Lỗi:', error);
-    alert('Lỗi khi gửi dữ liệu: ' + error.message);
-  }
-}
-async function fetchPostsFromSheet() {
-  const url = 'https://script.google.com/macros/s/AKfycbykgt3Pb8EmFVtDjhV7Q2Uq4y3xwCG1NmKSP8kv6SjqibUWnugrljAe6jj4kUEGxAB1/exec'; // Web App URL
-
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    
-    // Hiển thị bài viết từ Sheet
-    posts = data;
-    localStorage.setItem('posts', JSON.stringify(posts));
-    updatePostList();
-
-  } catch (err) {
-    console.error('Lỗi khi tải dữ liệu từ Google Sheets:', err);
-  }
-}
-
-// Gọi hàm này khi tải trang
-window.onload = fetchPostsFromSheet;
-
-        postButton.addEventListener('click', function () {
-            const title = postTitle.value.trim();
-            const priceOld = postPriceOld.value.trim();
-            const priceNew = postPriceNew.value.trim();
-            const description = postDescription.value.trim();
-            const imageSrc = previewImage.src;
-            const category = postCategory.value; // Lấy giá trị loại sản phẩm
-
-            // Kiểm tra dữ liệu đầu vào
-            if (!title || !priceOld || !priceNew || !imageSrc || !description || !category) {
-                alert('Vui lòng nhập đầy đủ thông tin và chọn hình ảnh!');
-                return; // Thoát nếu dữ liệu không hợp lệ
-            }
-
-            // Tính toán phần trăm giảm giá
-            const salePercent = Math.round(((parseFloat(priceOld.replace(/\D/g, '')) - parseFloat(priceNew.replace(/\D/g, ''))) / parseFloat(priceOld.replace(/\D/g, ''))) * 100);
-
-            // Tạo đối tượng bài viết mới
-            const newPost = { title, priceOld, priceNew, salePercent: `${salePercent}%`, imageSrc, description, category };
-
-            // Gửi dữ liệu đến Google Sheets
-            saveToGoogleSheets(newPost);
-
-            // Lưu danh sách bài viết vào LocalStorage
-            posts.push(newPost);
-            localStorage.setItem('posts', JSON.stringify(posts));
-
-            // Cập nhật danh sách bài viết
-            updatePostList();
-
-            // Reset form
-            postTitle.value = '';
-            postPriceOld.value = '';
-            postPriceNew.value = '';
-            previewImage.src = '';
-            postDescription.value = '';
-            previewImage.style.display = 'none';
-            postCategory.value = 'Nail chân'; // Reset về giá trị mặc định
-
-            alert('Bài viết đã được đăng thành công!');
-        });
-                // Cập nhật danh sách bài viết
-                function updatePostList() {
-                    postList.innerHTML = '<h3>Danh sách bài viết:</h3>';
-                    posts.forEach((post, index) => {
-                        const postItem = document.createElement('div');
-                        postItem.className = 'post-item';
-                        postItem.innerHTML = `
-                            <img src="${post.imageSrc}" alt="Hình ảnh bài viết">
-                            <h4>${post.title}</h4>
-                            <p>Giá cũ: ${post.priceOld}</p>
-                            <p>Giá giảm: ${post.priceNew}</p>
-                            <p>Giảm: ${post.salePercent}</p>
-                        `;
-                        postList.appendChild(postItem);
-                    });
-                }
-
-                // Cập nhật danh sách bài viết
-            function updatePostList() {
-                postList.innerHTML = '<h3>Danh sách bài viết:</h3>';
-                posts.forEach((post, index) => {
-                    const postItem = document.createElement('div');
-                    postItem.className = 'post-item';
-                    postItem.innerHTML = `
-                        <img src="${post.imageSrc}" alt="Hình ảnh bài viết">
-                        <h4>${post.title}</h4>
-                        <p>Giá cũ: ${post.priceOld}</p>
-                        <p>Giá giảm: ${post.priceNew}</p>
-                        <p>Giảm: ${post.salePercent}</p>
-                        <p>Loại sản phẩm: ${post.category}</p>
-                        <p>Mô tả: ${post.description}</p>
-                        <button class="btn-delete" data-index="${index}">Xóa</button>
-                    `;
-                    postList.appendChild(postItem);
-                });
-
-                // Thêm sự kiện xóa bài viết
-                const deleteButtons = document.querySelectorAll('.btn-delete');
-                deleteButtons.forEach(button => {
-                    button.addEventListener('click', function () {
-                        const index = this.getAttribute('data-index');
-                        deletePost(index);
-                    });
-            });
-        }
-
-    // Hàm xóa bài viết
-    function deletePost(index) {
-        // Xóa bài viết khỏi mảng
-        posts.splice(index, 1);
-
-        // Cập nhật lại LocalStorage
-        localStorage.setItem('posts', JSON.stringify(posts));
-
-        // Cập nhật lại danh sách bài viết
-        updatePostList();
-
-        alert('Bài viết đã được xóa thành công!');
-    }
-// ***********************
-
-    </script> -->
     <script>
         const postTitle = document.getElementById('postTitle');
         const postPriceOld = document.getElementById('postPriceOld');
@@ -503,7 +320,7 @@ window.onload = fetchPostsFromSheet;
         });
         
         async function saveToGoogleSheets(post) {
-            const apiUrl = 'https://script.google.com/macros/s/AKfycbykgt3Pb8EmFVtDjhV7Q2Uq4y3xwCG1NmKSP8kv6SjqibUWnugrljAe6jj4kUEGxAB1/exec';
+            const apiUrl = 'https://script.google.com/macros/s/AKfycbzWFPDhh9FxEVs_-eYfakzG0wMoPSPu4XIFyZwOXFFhbkeVLDqj-kNOikU3B5zHfAcH/exec';
         
             if (previewImage.src && previewImage.src.startsWith('data:')) {
                 post.imageBase64 = previewImage.src;
@@ -526,7 +343,7 @@ window.onload = fetchPostsFromSheet;
         }
         
         async function fetchPostsFromSheet() {
-            const url = 'https://script.google.com/macros/s/AKfycbykgt3Pb8EmFVtDjhV7Q2Uq4y3xwCG1NmKSP8kv6SjqibUWnugrljAe6jj4kUEGxAB1/exec';
+            const url = 'https://script.google.com/macros/s/AKfycbzWFPDhh9FxEVs_-eYfakzG0wMoPSPu4XIFyZwOXFFhbkeVLDqj-kNOikU3B5zHfAcH/exec';
         
             try {
                 const response = await fetch(url);

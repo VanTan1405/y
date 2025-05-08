@@ -241,7 +241,7 @@
 <body>
     <div class="container">
         <h1>Admin - Đăng Bài</h1>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="postTitle">Tên mẫu:</label>
             <input type="text" id="postTitle" placeholder="Nhập tên mẫu">
         </div>
@@ -269,7 +269,7 @@
         <div class="form-group">
             <label for="imageUpload">Chọn hình ảnh:</label>
             <input type="file" id="imageUpload" accept="image/*">
-        </div>
+        </div> -->
         <div class="preview">
             <p>Hình ảnh xem trước:</p>
             <img id="previewImage" src="" alt="Xem trước hình ảnh" style="display: none;">
@@ -326,72 +326,69 @@
             }
         });
 
-    async function saveToGoogleSheets(post) {
-  // Thay bằng URL Web App bạn vừa triển khai
-  const apiUrl = 'https://script.google.com/macros/s/AKfycbykgt3Pb8EmFVtDjhV7Q2Uq4y3xwCG1NmKSP8kv6SjqibUWnugrljAe6jj4kUEGxAB1/exec';
-  
-  // Chuyển đổi hình ảnh sang base64
-  if (previewImage.src && previewImage.src.startsWith('data:')) {
-    post.imageBase64 = previewImage.src;
-  }
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzWFPDhh9FxEVs_-eYfakzG0wMoPSPu4XIFyZwOXFFhbkeVLDqj-kNOikU3B5zHfAcH/exec"; // Thay bằng URL vừa deploy
 
+
+async function saveToGoogleSheets(post) {
   try {
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      mode: 'no-cors', // Thêm dòng này để xử lý CORS
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(post),
+    const response = await fetch(WEB_APP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(post)
     });
     
-    // Xử lý response đơn giản vì mode no-cors
-    alert('Dữ liệu đã được gửi thành công!');
-    console.log('Dữ liệu đã gửi:', post);
+    if (!response.ok) throw new Error("HTTP error " + response.status);
     
+    const result = await response.json();
+    if (result.status === "success") {
+      alert("Đã lưu thành công!");
+      fetchPostsFromSheet();
+    }
   } catch (error) {
-    console.error('Lỗi:', error);
-    alert('Lỗi khi gửi dữ liệu: ' + error.message);
+    console.error("Chi tiết lỗi:", error);
+    alert("Lỗi kết nối: " + error.message);
   }
 }
-// async function fetchPostsFromSheet() {
-//   const url = 'https://script.google.com/macros/s/AKfycbykgt3Pb8EmFVtDjhV7Q2Uq4y3xwCG1NmKSP8kv6SjqibUWnugrljAe6jj4kUEGxAB1/exec'; // Web App URL
-
-//   try {
-//     const response = await fetch(url);
-//     const data = await response.json();
-    
-//     // Hiển thị bài viết từ Sheet
-//     posts = data;
-//     localStorage.setItem('posts', JSON.stringify(posts));
-//     updatePostList();
-
-//   } catch (err) {
-//     console.error('Lỗi khi tải dữ liệu từ Google Sheets:', err);
-//   }
-// }
 
 async function fetchPostsFromSheet() {
   try {
-    // const url = 'URL_WEB_APP_CUA_BAN';
-    const url = 'https://script.google.com/macros/s/AKfycbykgt3Pb8EmFVtDjhV7Q2Uq4y3xwCG1NmKSP8kv6SjqibUWnugrljAe6jj4kUEGxAB1/exec'; // Web App URL
-
-    const response = await fetch(url);
-    
-    if (!response.ok) throw new Error('Network response was not ok');
-    
+    const response = await fetch(`${WEB_APP_URL}?action=getPosts&cache=${Date.now()}`);
     const data = await response.json();
-    posts = data;
-    localStorage.setItem('posts', JSON.stringify(posts));
-    updatePostList();
+    
+    if (data && Array.isArray(data)) {
+      posts = data;
+      updatePostList();
+    } else {
+      console.error("Dữ liệu không hợp lệ:", data);
+      posts = JSON.parse(localStorage.getItem("posts")) || [];
+      updatePostList();
+    }
   } catch (err) {
-    console.error('Lỗi khi tải dữ liệu:', err);
-    // Fallback: hiển thị dữ liệu từ localStorage nếu có
-    posts = JSON.parse(localStorage.getItem('posts')) || [];
+    console.error("Lỗi tải dữ liệu:", err);
+    posts = JSON.parse(localStorage.getItem("posts")) || [];
     updatePostList();
   }
 }
+async function deletePost(index) {
+  const apiUrl = `https://script.google.com/macros/s/AKfycbzWFPDhh9FxEVs_-eYfakzG0wMoPSPu4XIFyZwOXFFhbkeVLDqj-kNOikU3B5zHfAcH/exec=${index}`; // Thay bằng URL Web App của bạn
 
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'DELETE',
+    });
+
+    const result = await response.json();
+    if (result.status === 'success') {
+      alert('Bài viết đã được xóa thành công!');
+      fetchPostsFromSheet(); // Tải lại danh sách bài viết
+    } else {
+      alert('Lỗi khi xóa bài viết: ' + result.message);
+    }
+  } catch (error) {
+    console.error('Lỗi:', error);
+    alert('Không thể kết nối với Google Sheets.');
+  }
+}
 // Gọi hàm này khi tải trang
 window.onload = fetchPostsFromSheet;
 
@@ -436,68 +433,65 @@ window.onload = fetchPostsFromSheet;
 
             alert('Bài viết đã được đăng thành công!');
         });
-                // Cập nhật danh sách bài viết
-                function updatePostList() {
-                    postList.innerHTML = '<h3>Danh sách bài viết:</h3>';
-                    posts.forEach((post, index) => {
-                        const postItem = document.createElement('div');
-                        postItem.className = 'post-item';
-                        postItem.innerHTML = `
-                            <img src="${post.imageSrc}" alt="Hình ảnh bài viết">
-                            <h4>${post.title}</h4>
-                            <p>Giá cũ: ${post.priceOld}</p>
-                            <p>Giá giảm: ${post.priceNew}</p>
-                            <p>Giảm: ${post.salePercent}</p>
-                        `;
-                        postList.appendChild(postItem);
-                    });
-                }
 
-                // Cập nhật danh sách bài viết
-            function updatePostList() {
-                postList.innerHTML = '<h3>Danh sách bài viết:</h3>';
-                posts.forEach((post, index) => {
-                    const postItem = document.createElement('div');
-                    postItem.className = 'post-item';
-                    postItem.innerHTML = `
-                        <img src="${post.imageSrc}" alt="Hình ảnh bài viết">
-                        <h4>${post.title}</h4>
-                        <p>Giá cũ: ${post.priceOld}</p>
-                        <p>Giá giảm: ${post.priceNew}</p>
-                        <p>Giảm: ${post.salePercent}</p>
-                        <p>Loại sản phẩm: ${post.category}</p>
-                        <p>Mô tả: ${post.description}</p>
-                        <button class="btn-delete" data-index="${index}">Xóa</button>
-                    `;
-                    postList.appendChild(postItem);
-                });
+    function updatePostList() {
+  postList.innerHTML = '<h3>Danh sách bài viết:</h3>';
+  
+  posts.forEach((post) => {
+    const postItem = document.createElement('div');
+    postItem.className = 'post-item';
+    postItem.innerHTML = `
+      ${post.imageSrc ? `<img src="${post.imageSrc}" alt="Hình ảnh bài viết">` : ''}
+      <h4>${post.title || 'Chưa có tiêu đề'}</h4>
+      <p>Giá cũ: ${post.priceOld || 'N/A'}</p>
+      <p>Giá giảm: ${post.priceNew || 'N/A'}</p>
+      <p>Giảm: ${post.salePercent || '0%'}</p>
+      <p>Loại sản phẩm: ${post.category || 'Chưa phân loại'}</p>
+      <p>Mô tả: ${post.description || 'Không có mô tả'}</p>
+      <button class="btn-delete" data-id="${post.id}">Xóa</button>
+    `;
+    postList.appendChild(postItem);
+  });
 
-                // Thêm sự kiện xóa bài viết
-                const deleteButtons = document.querySelectorAll('.btn-delete');
-                deleteButtons.forEach(button => {
-                    button.addEventListener('click', function () {
-                        const index = this.getAttribute('data-index');
-                        deletePost(index);
-                    });
-            });
-        }
+  // Thêm sự kiện click cho các nút xóa
+  document.querySelectorAll('.btn-delete').forEach(button => {
+    button.addEventListener('click', async function() {
+      const postId = this.getAttribute('data-id');
+      if (confirm('Bạn có chắc chắn muốn xóa bài viết này?')) {
+        await deletePost(postId);
+      }
+    });
+  });
+}
 
-    // Hàm xóa bài viết
-    function deletePost(index) {
-        // Xóa bài viết khỏi mảng
-        posts.splice(index, 1);
+    async function deletePost(postId) {
+  try {
+    const response = await fetch(`${WEB_APP_URL}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        action: "delete",
+        id: postId
+      })
+    });
 
-        // Cập nhật lại LocalStorage
-        localStorage.setItem('posts', JSON.stringify(posts));
-
-        // Cập nhật lại danh sách bài viết
-        updatePostList();
-
-        alert('Bài viết đã được xóa thành công!');
-    }
+    if (!response.ok) throw new Error(await response.text());
+    
+    // Cập nhật local storage và giao diện
+    posts = posts.filter(post => post.id != postId);
+    localStorage.setItem('posts', JSON.stringify(posts));
+    updatePostList();
+    alert('Xóa thành công!');
+  } catch (error) {
+    console.error('Lỗi xóa:', error);
+    alert(`Lỗi khi xóa: ${error.message}`);
+  }
+}
 // ***********************
-
     </script>
+
 </body>
 </html>
 
