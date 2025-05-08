@@ -385,53 +385,7 @@
             // TODO: Nếu bạn muốn xoá trong Google Sheets, bạn cần thêm xử lý server script
             alert('Bài viết đã bị xoá khỏi giao diện. Để xoá khỏi Google Sheets cần cập nhật Apps Script.');
         }
-        // async function deletePost(index) {
-        //     const confirmed = confirm('Bạn có chắc muốn xóa bài viết này không?');
-        //     if (!confirmed) return;
 
-        //     // Lấy thông tin bài viết cần xóa
-        //     const postToDelete = posts[index];
-            
-        //     try {
-        //         // Hiển thị trạng thái đang xử lý
-        //         const deleteBtn = event.target;
-        //         const originalText = deleteBtn.textContent;
-        //         deleteBtn.disabled = true;
-        //         deleteBtn.textContent = 'Đang xóa...';
-
-        //         // Gửi yêu cầu xóa đến Google Apps Script
-        //         const response = await fetch('https://script.google.com/macros/s/AKfycbydyoBcelncwMJqEHDYjVzO7H-ecuSuQhQXPP9df69ClrC0R-_Ah_Z7S6heQ6b1cjVn/exec', {
-        //             method: 'POST',
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //             },
-        //             body: JSON.stringify({
-        //                 action: 'delete',
-        //                 rowId: index + 2 // +2 vì hàng 1 là header, bắt đầu từ hàng 2
-        //             })
-        //         });
-
-        //         const result = await response.json();
-                
-        //         if (result.status === 'success') {
-        //             // Xóa khỏi giao diện
-        //             posts.splice(index, 1);
-        //             updatePostList();
-        //             alert('Xóa bài viết thành công!');
-        //         } else {
-        //             throw new Error(result.message || 'Lỗi khi xóa bài viết');
-        //         }
-        //     } catch (error) {
-        //         console.error('Lỗi khi xóa bài viết:', error);
-        //         alert('Có lỗi xảy ra khi xóa bài viết: ' + error.message);
-        //     } finally {
-        //         // Khôi phục trạng thái nút
-        //         if (deleteBtn) {
-        //             deleteBtn.disabled = false;
-        //             deleteBtn.textContent = originalText;
-        //         }
-        //     }
-        // }
         postButton.addEventListener('click', function () {
             const title = postTitle.value.trim();
             const priceOld = postPriceOld.value.trim();
@@ -460,6 +414,7 @@
         });
         
         window.onload = fetchPostsFromSheet;
+        
         //TANNV:  Thêm định dạng giá trị 
         function formatCurrency(value) {
             // Xóa tất cả ký tự không phải số

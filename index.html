@@ -1373,124 +1373,27 @@
         </div>
     </div>
     <script>
-
-const postContainer = document.querySelector('.main__tabnine .row'); // Container hiển thị sản phẩm
-const posts = JSON.parse(localStorage.getItem('posts')) || []; // Lấy dữ liệu từ LocalStorage
-const categoryFilter = document.getElementById('categoryFilter'); // Dropdown lọc loại sản phẩm
-
-// ---
-const subNavLinks = document.querySelectorAll('.sub-nav__link'); // Lấy tất cả các liên kết trong sub-nav
-
-// Hàm hiển thị sản phẩm
-function displayPosts(filteredPosts) {
-    postContainer.innerHTML = ''; // Xóa nội dung cũ
-    filteredPosts.forEach(post => {
-        const postItem = document.createElement('div');
-        postItem.className = 'col l-2 m-4 s-6';
-        postItem.innerHTML = `
-            <div class="product">
-                <div class="product__avt" style="background-image: url(${post.imageSrc});">
-                </div>
-                <div class="product__info">
-                    <h3 class="product__name">${post.title}</h3>
-                    <div class="product__price">
-                        <div class="price__old">${post.priceOld}</div>
-                        <div class="price__new">${post.priceNew} <span class="price__unit">đ</span></div>
-                    </div>
-                    <div class="product__sale">
-                        <span class="product__sale-percent">${post.salePercent}</span>
-                        <span class="product__sale-text">Giảm</span>
-                    </div>
-                </div>
-                <a href="product.html" class="viewDetail">Xem chi tiết</a>
-                <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
-            </div>
-        `;
-        postContainer.appendChild(postItem);
-    });
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Hiển thị tất cả sản phẩm khi trang được tải
-    displayPosts(posts);
-
-    // Xử lý sự kiện click vào từng mục trong sub-nav
-    const subNavLinks = document.querySelectorAll('.sub-nav__link'); // Lấy tất cả các liên kết trong sub-nav
-
-    subNavLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            // Xóa trạng thái active của tất cả các link
-            subNavLinks.forEach(link => link.classList.remove('active'));
-
-            // Thêm trạng thái active cho link được nhấn
-            this.classList.add('active');
-
-            // Lọc sản phẩm theo loại
-            const selectedCategory = this.getAttribute('data-category');
-            if (selectedCategory === 'all') {
-                displayPosts(posts); // Hiển thị tất cả sản phẩm
-            } else {
-                const filteredPosts = posts.filter(post => post.category === selectedCategory);
-                displayPosts(filteredPosts); // Hiển thị sản phẩm theo loại
-            }
-        });
-    });
-});
-// ***************
-// Hàm tải sản phẩm từ Google Sheets
 async function loadProductsFromSheets() {
-  const apiUrl = 'https://script.google.com/macros/s/AKfycbykgt3Pb8EmFVtDjhV7Q2Uq4y3xwCG1NmKSP8kv6SjqibUWnugrljAe6jj4kUEGxAB1/exec'; // Thay bằng URL Web App của bạn
-  
+  const apiUrl = 'https://script.google.com/macros/s/AKfycbykXz7_McJYPnTT9qlzfwu2KGL7Yrcl4Nj5_d1SjzYkhkckBcl5idVkJeqf90JRZMDD/exec'; // Thay bằng URL Web App của bạn
+
   try {
     const response = await fetch(apiUrl);
     const products = await response.json();
-    
+
     // Hiển thị sản phẩm lên giao diện
     displayProducts(products);
-    
-    // Lưu vào localStorage để dùng offline
-    localStorage.setItem('products', JSON.stringify(products));
   } catch (error) {
-    console.error('Lỗi khi tải dữ liệu:', error);
-    // Nếu không kết nối được, dùng dữ liệu từ localStorage
-    const cachedProducts = JSON.parse(localStorage.getItem('products')) || [];
-    displayProducts(cachedProducts);
+    console.error('Lỗi khi tải dữ liệu từ Google Sheets:', error);
   }
 }
-
-// Hàm hiển thị sản phẩm
 function displayProducts(products) {
-  const postList = document.getElementById('postList');
-  const postContainer = document.querySelector('.main__tabnine .row');
-  
-  // Xóa nội dung cũ
-  postList.innerHTML = '<h3>Danh sách sản phẩm:</h3>';
-  postContainer.innerHTML = '';
-  
-  // Hiển thị trong danh sách admin
-  products.forEach((product, index) => {
-    const productItem = document.createElement('div');
-    productItem.className = 'post-item';
-    productItem.innerHTML = `
-      <h4>${product.title || 'Không có tên'}</h4>
-      <p>Loại: ${product.category || 'N/A'}</p>
-      <p>Giá cũ: ${product.priceOld || 'N/A'}</p>
-      <p>Giá mới: ${product.priceNew || 'N/A'}</p>
-      <p>Giảm: ${product.salePercent || 'N/A'}</p>
-      <p>Mô tả: ${product.description || 'N/A'}</p>
-      ${product.imageUrl ? `<img src="${product.imageUrl}" alt="Ảnh sản phẩm" style="max-width: 200px;">` : ''}
-      <button class="btn-delete" data-id="${index}">Xóa</button>
-    `;
-    postList.appendChild(productItem);
-  });
-  
-  // Hiển thị trong trang chủ (sản phẩm)
+  const productContainer = document.querySelector('.main__tabnine .row'); // Container hiển thị sản phẩm
+  productContainer.innerHTML = ''; // Xóa nội dung cũ
+
   products.forEach(product => {
-    const postItem = document.createElement('div');
-    postItem.className = 'col l-2 m-4 s-6';
-    postItem.innerHTML = `
+    const productItem = document.createElement('div');
+    productItem.className = 'col l-2 m-4 s-6';
+    productItem.innerHTML = `
       <div class="product">
         <div class="product__avt" style="background-image: url(${product.imageUrl || './assets/img/no-image.jpg'});">
         </div>
@@ -1509,15 +1412,10 @@ function displayProducts(products) {
         <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
       </div>
     `;
-    postContainer.appendChild(postItem);
+    productContainer.appendChild(productItem);
   });
 }
-
-// Tự động cập nhật dữ liệu mỗi 30 giây
-setInterval(loadProductsFromSheets, 30000);
-
-// Load dữ liệu khi trang được tải
-window.addEventListener('DOMContentLoaded', loadProductsFromSheets);
+document.addEventListener('DOMContentLoaded', loadProductsFromSheets);
 // ***********
 // ------------------------------------------------------------------------------------------
 // Xử lý sự kiện đăng nhập
