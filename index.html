@@ -71,46 +71,59 @@
         background-color: #0056b3;
     }
     .loading-indicator {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px 20px;
-  background: #2575fc;
-  color: white;
-  border-radius: 4px;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background: #2575fc;
+    color: white;
+    border-radius: 4px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
 
-.notification {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 10px 20px;
-  color: white;
-  border-radius: 4px;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  opacity: 1;
-  transition: opacity 0.5s;
-}
+    .notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 4px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    opacity: 1;
+    transition: opacity 0.5s;
+    }
 
-.notification.success {
-  background: #4CAF50;
-}
+    .notification.success {
+    background: #4CAF50;
+    }
 
-.notification.warning {
-  background: #FF9800;
-}
+    .notification.warning {
+    background: #FF9800;
+    }
 
-.notification.error {
-  background: #F44336;
-}
+    .notification.error {
+    background: #F44336;
+    }
 
-.notification.fade-out {
-  opacity: 0;
-}
+    .notification.fade-out {
+    opacity: 0;
+    }
+    /* Thêm vào phần style */
+    .sub-nav__link.heading.active {
+        color: #ff6b6b;
+        font-weight: bold;
+    }
+
+    .no-products {
+        text-align: center;
+        padding: 20px;
+        font-size: 18px;
+        color: #666;
+        width: 100%;
+    }
     /* TANNV: Reponsive trên điện thoại  */
     </style>
 </head>
@@ -668,7 +681,9 @@
             </a>
         </div>
     </div>
-    <script>
+    <!-- <script>
+
+        
         async function loadProductsFromSheets() {
         const apiUrl = 'https://script.google.com/macros/s/AKfycbxxl8wZY5_uBt139CuZFJtzvvLX_Uc7XIztTmzTjRHesPEccljmHr6cpd8nmTDQuhVu/exec'; // Thay bằng URL Web App của bạn
 
@@ -715,119 +730,193 @@
     });
     }
 
-// <span class="product__sale-percent">${product.title}</span>
-document.addEventListener('DOMContentLoaded', loadProductsFromSheets);
+        // <span class="product__sale-percent">${product.title}</span>
+        document.addEventListener('DOMContentLoaded', loadProductsFromSheets);
 
-document.addEventListener('DOMContentLoaded', function () {
-  // Lấy các liên kết đăng nhập và đăng ký
-  const loginLink = document.querySelector('.header__account-login');
-  const registerLink = document.querySelector('.header__account-register');
+        document.addEventListener('DOMContentLoaded', function () {
+        // Lấy các liên kết đăng nhập và đăng ký
+        const loginLink = document.querySelector('.header__account-login');
+        const registerLink = document.querySelector('.header__account-register');
 
-  // Lấy modal đăng nhập và đăng ký
-  const loginModal = document.querySelector('#my-Login');
-  const registerModal = document.querySelector('#my-Register');
+        // Lấy modal đăng nhập và đăng ký
+        const loginModal = document.querySelector('#my-Login');
+        const registerModal = document.querySelector('#my-Register');
 
-  // Hiển thị modal đăng nhập khi nhấn vào liên kết "Đăng Nhập"
-  loginLink.addEventListener('click', function (event) {
-    event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
-    loginModal.style.display = 'block'; // Hiển thị modal đăng nhập
-  });
+        // Hiển thị modal đăng nhập khi nhấn vào liên kết "Đăng Nhập"
+        loginLink.addEventListener('click', function (event) {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+            loginModal.style.display = 'block'; // Hiển thị modal đăng nhập
+        });
 
-  // Hiển thị modal đăng ký khi nhấn vào liên kết "Đăng Kí"
-  registerLink.addEventListener('click', function (event) {
-    event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
-    registerModal.style.display = 'block'; // Hiển thị modal đăng ký
-  });
+        // Hiển thị modal đăng ký khi nhấn vào liên kết "Đăng Kí"
+        registerLink.addEventListener('click', function (event) {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+            registerModal.style.display = 'block'; // Hiển thị modal đăng ký
+        });
 
-  // Đóng modal khi nhấn vào overlay hoặc nút đóng
-  const overlays = document.querySelectorAll('.overlay-close');
-  overlays.forEach(overlay => {
-    overlay.addEventListener('click', function () {
-      loginModal.style.display = 'none';
-      registerModal.style.display = 'none';
-    });
-  });
-});
-// // ***********
-// // ------------------------------------------------------------------------------------------
-// // Xử lý sự kiện đăng nhập
-// document.addEventListener('DOMContentLoaded', function () {
-//     const filterLinks = document.querySelectorAll('.sub-nav__link');
-//  // Thêm sự kiện click cho từng liên kết
-//  filterLinks.forEach(link => {
-//     link.addEventListener('click', function (event) {
-//       event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+        // Đóng modal khi nhấn vào overlay hoặc nút đóng
+        const overlays = document.querySelectorAll('.overlay-close');
+        overlays.forEach(overlay => {
+            overlay.addEventListener('click', function () {
+            loginModal.style.display = 'none';
+            registerModal.style.display = 'none';
+            });
+        });
+        });
 
-//       // Lấy giá trị category từ thuộc tính data-category
-//       const category = this.getAttribute('data-category');
+        document.addEventListener('DOMContentLoaded', function () {
+            // Lấy các liên kết đăng nhập và modal đăng nhập
+            const loginLink = document.querySelector('.header__account-login');
+            const loginModal = document.querySelector('#my-Login');
+            const overlayClose = document.querySelector('.overlay-close');
 
-//       // Gọi hàm loadProductsFromSheets với category
-//       loadProductsFromSheets(category);
-//     });
-//   });
-//     document.getElementById('loginButton').addEventListener('click', function () {
-//         const emailInput = document.getElementById('account').value.trim();
-//         const passwordInput = document.getElementById('password').value.trim();
-//         const emailMessage = document.getElementById('emailMessage');
-//         const passwordMessage = document.getElementById('passwordMessage');
+            // Hiển thị modal đăng nhập khi nhấn vào "Đăng Nhập"
+            loginLink.addEventListener('click', function (event) {
+                event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+                loginModal.style.display = 'block'; // Hiển thị modal đăng nhập
+            });
 
-//         // Reset thông báo lỗi
-//         emailMessage.textContent = '';
-//         passwordMessage.textContent = '';
+            // Đóng modal khi nhấn vào overlay hoặc nút đóng
+            overlayClose.addEventListener('click', function () {
+                loginModal.style.display = 'none';
+            });
 
+            // Xử lý sự kiện đăng nhập
+            document.getElementById('loginButton').addEventListener('click', function () {
+                const emailInput = document.getElementById('account').value.trim();
+                const passwordInput = document.getElementById('password').value.trim();
+                const emailMessage = document.getElementById('emailMessage');
+                const passwordMessage = document.getElementById('passwordMessage');
 
-//         // Kiểm tra thông tin đăng nhập (giả lập)
-//         if (emailInput == 'abc@example.com') {
-//     alert('Đăng nhập thành công!');
-//         // Chuyển hướng đến trang admin
-//         window.location.href = 'product.html';
-//     } else {
-//         // Hiển thị thông báo lỗi
-//         emailMessage.textContent = 'Email hoặc mật khẩu không chính xác!';
-//         emailMessage.style.color = 'red';
-//     }
-//     });
-// });
-document.addEventListener('DOMContentLoaded', function () {
-    // Lấy các liên kết đăng nhập và modal đăng nhập
-    const loginLink = document.querySelector('.header__account-login');
-    const loginModal = document.querySelector('#my-Login');
-    const overlayClose = document.querySelector('.overlay-close');
+                // Reset thông báo lỗi
+                emailMessage.textContent = '';
+                passwordMessage.textContent = '';
 
-    // Hiển thị modal đăng nhập khi nhấn vào "Đăng Nhập"
-    loginLink.addEventListener('click', function (event) {
-        event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
-        loginModal.style.display = 'block'; // Hiển thị modal đăng nhập
-    });
-
-    // Đóng modal khi nhấn vào overlay hoặc nút đóng
-    overlayClose.addEventListener('click', function () {
-        loginModal.style.display = 'none';
-    });
-
-    // Xử lý sự kiện đăng nhập
-    document.getElementById('loginButton').addEventListener('click', function () {
-        const emailInput = document.getElementById('account').value.trim();
-        const passwordInput = document.getElementById('password').value.trim();
-        const emailMessage = document.getElementById('emailMessage');
-        const passwordMessage = document.getElementById('passwordMessage');
-
-        // Reset thông báo lỗi
-        emailMessage.textContent = '';
-        passwordMessage.textContent = '';
-
-        // Kiểm tra thông tin đăng nhập
-        if (emailInput === 'PhanPhun@gmail.com' && passwordInput === '123') {
-            alert('Đăng nhập thành công!');
-            // Chuyển hướng đến trang index copy.html
-            window.location.href = 'index copy.html';
-        } else {
-            // Hiển thị thông báo lỗi
-            emailMessage.textContent = 'Email hoặc mật khẩu không chính xác!';
-            emailMessage.style.color = 'red';
+                // Kiểm tra thông tin đăng nhập
+                if (emailInput === 'PhanPhun@gmail.com' && passwordInput === '123') {
+                    alert('Đăng nhập thành công!');
+                    // Chuyển hướng đến trang index copy.html
+                    window.location.href = 'index copy.html';
+                } else {
+                    // Hiển thị thông báo lỗi
+                    emailMessage.textContent = 'Email hoặc mật khẩu không chính xác!';
+                    emailMessage.style.color = 'red';
+                }
+            });
+        });
+    </script> -->
+    <script>
+        // Hàm tải sản phẩm với tham số category (mặc định là 'all')
+        async function loadProductsFromSheets(priceOld = 'all') {
+            const apiUrl = 'https://script.google.com/macros/s/AKfycbxxl8wZY5_uBt139CuZFJtzvvLX_Uc7XIztTmzTjRHesPEccljmHr6cpd8nmTDQuhVu/exec';
+            
+            // Hiển thị loading indicator
+            showLoading("Đang tải sản phẩm...");
+            
+            try {
+                const response = await fetch(apiUrl);
+                const allProducts = await response.json();
+                
+                // Lọc sản phẩm theo category nếu không phải là 'all'
+                const filteredProducts = priceOld === 'all' 
+                    ? allProducts 
+                    : allProducts.filter(product => product.priceOld === priceOld);
+                
+                // Hiển thị sản phẩm lên giao diện
+                displayProducts(filteredProducts);
+                hideLoading();
+                showNotification("Tải sản phẩm thành công!", "success");
+            } catch (error) {
+                console.error('Lỗi khi tải dữ liệu:', error);
+                hideLoading();
+                showNotification("Lỗi khi tải sản phẩm!", "error");
+            }
         }
-    });
-});
+    
+        function displayProducts(products) {
+            const productContainer = document.querySelector('.main__tabnine .row');
+            productContainer.innerHTML = ''; // Xóa nội dung cũ
+    
+            if (products.length === 0) {
+                productContainer.innerHTML = '<p class="no-products">Không có sản phẩm nào trong danh mục này.</p>';
+                return;
+            }
+    
+            products.forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.className = 'col l-2 m-4 s-6';
+                productItem.innerHTML = `
+                    <div class="product">
+                        <div class="product__avt" style="background-image: url(${product.imageUrl || './assets/img/no-image.jpg'});">
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__name">${product.category || product.category}</h3>
+                            <div class="product__price">
+                                ${product.priceOld ? `<div class="price__old">${product.priceNew} đ</div>` : ''}
+                                <div class="price__new">${product.salePercent} <span class="price__unit">đ</span></div>
+                            </div>
+                            ${product.salePercent ? `
+                            <div class="product__sale">
+                                <span class="product__sale-percent">${product.salePercent}</span>
+                                <span class="product__sale-text">Giảm</span>
+                            </div>` : ''}
+                        </div>
+                        <a href="product.html?id=${product.id}" class="viewDetail">Xem chi tiết</a>
+                        <a href="cart.html?id=${product.id}" class="addToCart">Thêm vào giỏ</a>
+                    </div>
+                `;
+                productContainer.appendChild(productItem);
+            });
+        }
+    
+        // Thêm sự kiện click cho các liên kết lọc
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tải tất cả sản phẩm khi trang được tải
+            loadProductsFromSheets();
+            
+            // Lấy tất cả các liên kết lọc danh mục
+            const filterLinks = document.querySelectorAll('.sub-nav__link.heading');
+            
+            // Thêm sự kiện click cho từng liên kết
+            filterLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const priceOld = this.getAttribute('data-category');
+                    
+                    // Làm nổi bật danh mục được chọn
+                    filterLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Tải sản phẩm theo danh mục
+                    loadProductsFromSheets(priceOld);
+                });
+            });
+        });
+    
+        // Các hàm hỗ trợ UI
+        function showLoading(message) {
+            const loading = document.createElement('div');
+            loading.className = 'loading-indicator';
+            loading.textContent = message;
+            document.body.appendChild(loading);
+        }
+    
+        function hideLoading() {
+            const loading = document.querySelector('.loading-indicator');
+            if (loading) loading.remove();
+        }
+    
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('fade-out');
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
     </script>
     <!-- Script common -->
     <script src="./assets/js/homeScript.js"></script>
