@@ -681,130 +681,6 @@
             </a>
         </div>
     </div>
-    <!-- <script>
-
-        
-        async function loadProductsFromSheets() {
-        const apiUrl = 'https://script.google.com/macros/s/AKfycbxxl8wZY5_uBt139CuZFJtzvvLX_Uc7XIztTmzTjRHesPEccljmHr6cpd8nmTDQuhVu/exec'; // Thay bằng URL Web App của bạn
-
-        try {
-            const response = await fetch(apiUrl);
-            const products = await response.json();
-
-            // Hiển thị sản phẩm lên giao diện
-            displayProducts(products);
-        } catch (error) {
-            console.error('Lỗi khi tải dữ liệu từ Google Sheets:', error);
-        }
-        }
-        
-
-    function displayProducts(products) {
-    const productContainer = document.querySelector('.main__tabnine .row'); // Container hiển thị sản phẩm
-    productContainer.innerHTML = ''; // Xóa nội dung cũ
-
-    products.forEach(product => {
-        const productItem = document.createElement('div');
-        productItem.className = 'col l-2 m-4 s-6';
-        productItem.innerHTML = `
-        <div class="product">
-            <div class="product__avt" style="background-image: url(${product.imageUrl || './assets/img/no-image.jpg'});">
-            </div>
-            <div class="product__info">
-            <h3 class="product__name">${product.category}</h3>
-            <div class="product__price">
-                <div class="price__old">${product.salePercent}</div>
-                <div class="price__new">${product.priceNew} <span class="price__unit">đ</span></div>
-            </div>
-            <div class="product__sale">
-                <span class="product__sale-percent"></span>
-
-                <span class="product__sale-text">Giảm</span>
-            </div>
-            </div>
-            <a href="product.html" class="viewDetail">Xem chi tiết</a>
-            <a href="cart.html" class="addToCart">Thêm vào giỏ</a>
-        </div>
-        `;
-        productContainer.appendChild(productItem);
-    });
-    }
-
-        // <span class="product__sale-percent">${product.title}</span>
-        document.addEventListener('DOMContentLoaded', loadProductsFromSheets);
-
-        document.addEventListener('DOMContentLoaded', function () {
-        // Lấy các liên kết đăng nhập và đăng ký
-        const loginLink = document.querySelector('.header__account-login');
-        const registerLink = document.querySelector('.header__account-register');
-
-        // Lấy modal đăng nhập và đăng ký
-        const loginModal = document.querySelector('#my-Login');
-        const registerModal = document.querySelector('#my-Register');
-
-        // Hiển thị modal đăng nhập khi nhấn vào liên kết "Đăng Nhập"
-        loginLink.addEventListener('click', function (event) {
-            event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
-            loginModal.style.display = 'block'; // Hiển thị modal đăng nhập
-        });
-
-        // Hiển thị modal đăng ký khi nhấn vào liên kết "Đăng Kí"
-        registerLink.addEventListener('click', function (event) {
-            event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
-            registerModal.style.display = 'block'; // Hiển thị modal đăng ký
-        });
-
-        // Đóng modal khi nhấn vào overlay hoặc nút đóng
-        const overlays = document.querySelectorAll('.overlay-close');
-        overlays.forEach(overlay => {
-            overlay.addEventListener('click', function () {
-            loginModal.style.display = 'none';
-            registerModal.style.display = 'none';
-            });
-        });
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            // Lấy các liên kết đăng nhập và modal đăng nhập
-            const loginLink = document.querySelector('.header__account-login');
-            const loginModal = document.querySelector('#my-Login');
-            const overlayClose = document.querySelector('.overlay-close');
-
-            // Hiển thị modal đăng nhập khi nhấn vào "Đăng Nhập"
-            loginLink.addEventListener('click', function (event) {
-                event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
-                loginModal.style.display = 'block'; // Hiển thị modal đăng nhập
-            });
-
-            // Đóng modal khi nhấn vào overlay hoặc nút đóng
-            overlayClose.addEventListener('click', function () {
-                loginModal.style.display = 'none';
-            });
-
-            // Xử lý sự kiện đăng nhập
-            document.getElementById('loginButton').addEventListener('click', function () {
-                const emailInput = document.getElementById('account').value.trim();
-                const passwordInput = document.getElementById('password').value.trim();
-                const emailMessage = document.getElementById('emailMessage');
-                const passwordMessage = document.getElementById('passwordMessage');
-
-                // Reset thông báo lỗi
-                emailMessage.textContent = '';
-                passwordMessage.textContent = '';
-
-                // Kiểm tra thông tin đăng nhập
-                if (emailInput === 'PhanPhun@gmail.com' && passwordInput === '123') {
-                    alert('Đăng nhập thành công!');
-                    // Chuyển hướng đến trang index copy.html
-                    window.location.href = 'index copy.html';
-                } else {
-                    // Hiển thị thông báo lỗi
-                    emailMessage.textContent = 'Email hoặc mật khẩu không chính xác!';
-                    emailMessage.style.color = 'red';
-                }
-            });
-        });
-    </script> -->
     <script>
         // Hàm tải sản phẩm với tham số category (mặc định là 'all')
         async function loadProductsFromSheets(priceOld = 'all') {
@@ -917,6 +793,83 @@
                 setTimeout(() => notification.remove(), 500);
             }, 3000);
         }
+        
+        // TANNV Thêm chức năng đăng nhập 
+        // <span class="product__sale-percent">${product.title}</span>
+        document.addEventListener('DOMContentLoaded', loadProductsFromSheets);
+
+        document.addEventListener('DOMContentLoaded', function () {
+        // Lấy các liên kết đăng nhập và đăng ký
+        const loginLink = document.querySelector('.header__account-login');
+        const registerLink = document.querySelector('.header__account-register');
+
+        // Lấy modal đăng nhập và đăng ký
+        const loginModal = document.querySelector('#my-Login');
+        const registerModal = document.querySelector('#my-Register');
+
+        // Hiển thị modal đăng nhập khi nhấn vào liên kết "Đăng Nhập"
+        loginLink.addEventListener('click', function (event) {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+            loginModal.style.display = 'block'; // Hiển thị modal đăng nhập
+        });
+
+        // Hiển thị modal đăng ký khi nhấn vào liên kết "Đăng Kí"
+        registerLink.addEventListener('click', function (event) {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+            registerModal.style.display = 'block'; // Hiển thị modal đăng ký
+        });
+
+        // Đóng modal khi nhấn vào overlay hoặc nút đóng
+        const overlays = document.querySelectorAll('.overlay-close');
+        overlays.forEach(overlay => {
+            overlay.addEventListener('click', function () {
+            loginModal.style.display = 'none';
+            registerModal.style.display = 'none';
+            });
+        });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Lấy các liên kết đăng nhập và modal đăng nhập
+            const loginLink = document.querySelector('.header__account-login');
+            const loginModal = document.querySelector('#my-Login');
+            const overlayClose = document.querySelector('.overlay-close');
+
+            // Hiển thị modal đăng nhập khi nhấn vào "Đăng Nhập"
+            loginLink.addEventListener('click', function (event) {
+                event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+                loginModal.style.display = 'block'; // Hiển thị modal đăng nhập
+            });
+
+            // Đóng modal khi nhấn vào overlay hoặc nút đóng
+            overlayClose.addEventListener('click', function () {
+                loginModal.style.display = 'none';
+            });
+
+            // Xử lý sự kiện đăng nhập
+            document.getElementById('loginButton').addEventListener('click', function () {
+                const emailInput = document.getElementById('account').value.trim();
+                const passwordInput = document.getElementById('password').value.trim();
+                const emailMessage = document.getElementById('emailMessage');
+                const passwordMessage = document.getElementById('passwordMessage');
+
+                // Reset thông báo lỗi
+                emailMessage.textContent = '';
+                passwordMessage.textContent = '';
+
+                // Kiểm tra thông tin đăng nhập
+                if (emailInput === 'PhanPhun@gmail.com' && passwordInput === '123') {
+                    alert('Đăng nhập thành công!');
+                    // Chuyển hướng đến trang index copy.html
+                    window.location.href = 'index copy.html';
+                } else {
+                    // Hiển thị thông báo lỗi
+                    emailMessage.textContent = 'Email hoặc mật khẩu không chính xác!';
+                    emailMessage.style.color = 'red';
+                }
+            });
+
+        });    
     </script>
     <!-- Script common -->
     <script src="./assets/js/homeScript.js"></script>
