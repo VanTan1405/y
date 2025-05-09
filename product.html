@@ -343,6 +343,27 @@
                     </div>
                 </div>
             </div>
+            <!-- TANNV -->
+            <div class="parallax">
+                <h2 class="animate__animated animate__fadeInDown">Chi tiết sản phẩm</h2>
+              </div>
+            
+              <!-- Main Content -->
+              <div class="container animate__animated animate__fadeInUp">
+                <h1 id="productTitle">Tên sản phẩm</h1>
+                <div class="product-info">
+                  <img id="productImage" src="" alt="Hình ảnh sản phẩm">
+                  <div class="details">
+                    <p id="productDescription">Mô tả sản phẩm</p>
+                    <div class="product-price">
+                      <span>Giá cũ: <span id="oldPrice"></span> đ</span>
+                      <span>Giá mới: <span id="newPrice"></span> đ</span>
+                      <span>Giảm: <span id="salePercent"></span></span>
+                    </div>
+                    <button id="addToCart" class="btn">Thêm vào giỏ</button>
+                  </div>
+                </div>
+              </div>
             <div class="productDetail ">
                 <div class="main__tabnine ">
                     <div class="grid wide ">
@@ -905,8 +926,41 @@
                 }
             }
         })
-    </script>
+        // TANNV: Hiển thị chi tiết SP
+        function getProductIdFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+            }
 
+            async function loadProductDetails() {
+            const productId = getProductIdFromURL();
+            const apiUrl = 'https://script.google.com/macros/s/AKfycbxxl8wZY5_uBt139CuZFJtzvvLX_Uc7XIztTmzTjRHesPEccljmHr6cpd8nmTDQuhVu/exec';
+            
+            try {
+                const response = await fetch(apiUrl);
+                const products = await response.json();
+                const product = products.find(p => p.id == productId);
+
+                if (product) {
+                $('#productTitle').text(product.title);
+                $('#productImage').attr('src', product.imageUrl || './assets/img/no-image.jpg');
+                $('#productDescription').text(product.description);
+                $('#oldPrice').text(product.priceOld);
+                $('#newPrice').text(product.priceNew);
+                $('#salePercent').text(product.salePercent);
+                } else {
+                $('.container').html('<p style="text-align:center; color:#999;">Không tìm thấy sản phẩm.</p>');
+                }
+            } catch (error) {
+                console.error('Lỗi khi tải dữ liệu:', error);
+                $('.container').html('<p style="text-align:center; color:red;">Lỗi khi tải thông tin sản phẩm.</p>');
+            }
+            }
+
+            $(document).ready(loadProductDetails);
+
+    </script>
+   
     <!-- Script common -->
     <script src="./assets/js/commonscript.js ">
     </script>
@@ -916,6 +970,7 @@
                 id = 'star' + f + (r % f ? 'half' : '')
             id && (document.getElementById(id).checked = !0)
         }
+        
     </script>
 </body>
 

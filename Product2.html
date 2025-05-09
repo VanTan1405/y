@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chi tiết sản phẩm</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2f5;
+    }
+    /* Header */
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    nav {
+      margin-top: 10px;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    /* Parallax Section */
+    .parallax {
+      background-image: url('https://via.placeholder.com/1920x400');
+      height: 400px;
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+    .parallax h2 {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      background-color: rgba(0,0,0,0.5);
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+    /* Main Content */
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      padding: 30px;
+    }
+    .product-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .product-info img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .details {
+      max-width: 500px;
+      flex: 1;
+    }
+    .details p {
+      font-size: 16px;
+      color: #444;
+      line-height: 1.6;
+    }
+    .product-price {
+      margin: 20px 0;
+      padding: 15px;
+      background-color: #f7f7f7;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    .product-price span {
+      display: block;
+      margin-bottom: 6px;
+    }
+    #oldPrice {
+      color: #999;
+      text-decoration: line-through;
+    }
+    #newPrice {
+      color: #e63946;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    #salePercent {
+      color: #2a9d8f;
+      font-weight: bold;
+    }
+    .btn {
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      background-color: #007bff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    /* Footer */
+    footer {
+      background-color: #343a40;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+    }
+    footer p {
+      margin: 5px 0;
+    }
+    footer a {
+      color: #ffc107;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 768px) {
+      .product-info {
+        flex-direction: column;
+        align-items: center;
+      }
+      .details {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>Shop Online</h1>
+    <nav>
+      <a href="#">Trang chủ</a>
+      <a href="#">Sản phẩm</a>
+      <a href="#">Liên hệ</a>
+    </nav>
+  </header>
+
+  <!-- Parallax Section -->
+  <div class="parallax">
+    <h2 class="animate__animated animate__fadeInDown">Chi tiết sản phẩm</h2>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container animate__animated animate__fadeInUp">
+    <h1 id="productTitle">Tên sản phẩm</h1>
+    <div class="product-info">
+      <img id="productImage" src="" alt="Hình ảnh sản phẩm">
+      <div class="details">
+        <p id="productDescription">Mô tả sản phẩm</p>
+        <div class="product-price">
+          <span>Giá cũ: <span id="oldPrice"></span> đ</span>
+          <span>Giá mới: <span id="newPrice"></span> đ</span>
+          <span>Giảm: <span id="salePercent"></span></span>
+        </div>
+        <!-- <button id="addToCart" class="btn">Thêm vào giỏ</button> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Shop Online. All rights reserved.</p>
+    <p>
+      <a href="#">Chính sách bảo mật</a> |
+      <a href="#">Điều khoản sử dụng</a> |
+      <a href="#">Hỗ trợ</a>
+    </p>
+  </footer>
+
+  <script>
+    function getProductIdFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+
+    async function loadProductDetails() {
+      const productId = getProductIdFromURL();
+      const apiUrl = 'https://script.google.com/macros/s/AKfycbxxl8wZY5_uBt139CuZFJtzvvLX_Uc7XIztTmzTjRHesPEccljmHr6cpd8nmTDQuhVu/exec';
+      
+      try {
+        const response = await fetch(apiUrl);
+        const products = await response.json();
+        const product = products.find(p => p.id == productId);
+
+        if (product) {
+          $('#productTitle').text(product.Category);
+          $('#productImage').attr('src', product.imageUrl || './assets/img/no-image.jpg');
+          $('#productDescription').text(product.description);
+          $('#oldPrice').text(product.priceNew);
+          $('#newPrice').text(product.salePercent);
+          $('#salePercent').text(product.salePercent);
+        } else {
+          $('.container').html('<p style="text-align:center; color:#999;">Không tìm thấy sản phẩm.</p>');
+        }
+      } catch (error) {
+        console.error('Lỗi khi tải dữ liệu:', error);
+        $('.container').html('<p style="text-align:center; color:red;">Lỗi khi tải thông tin sản phẩm.</p>');
+      }
+    }
+
+    $(document).ready(loadProductDetails);
+  </script>
+</body>
+</html>
